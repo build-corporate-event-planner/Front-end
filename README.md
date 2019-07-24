@@ -17,8 +17,7 @@ Stretch Goal: Invite other co-workers by e-mail to join the project, with abilit
 
 ### Design Links / Data Sets
 TL - Backend Steward  
-[API - Documentation Links]
-(https://github.com/corporate-event-planner/DevelopmentBE)
+[API - Documentation Links](https://github.com/corporate-event-planner/DevelopmentBE)
 
 ####  Person to Contact
 Jon Palacio  
