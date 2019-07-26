@@ -2,11 +2,11 @@
 import Home from './Home'
 
 // Login Components
-import Login from './Login'
-import PrivateRoute from './PrivateRoute'
+import Login from './Login/Login'
+import PrivateRoute from './Login/PrivateRoute'
 
 // Tools
-import Alerts from './Tools/Alerts'
-import Example from './Tools/Example'
+import Alerts from './utils/Alerts'
+import ErrorHandler from './utils/ErrorHandler'
 
-export { Home, Login, PrivateRoute, Alerts, Example };
+export { Home, Login, PrivateRoute, Alerts };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Route } from 'react-router-dom'
 // import components
-import { Home, PrivateRoute, Login, Alerts, Example } from './'
+import { Home, PrivateRoute, Login, Alerts } from './'
 
 export default function App() {
   // Declare a new state variable
