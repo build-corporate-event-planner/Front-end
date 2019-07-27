@@ -1,12 +1,13 @@
 // Components
 import Home from './Home'
+import Nav from './Nav'
 
 // Login Components
 import Login from './Login/Login'
+import Register from './Login/Register'
 import PrivateRoute from './Login/PrivateRoute'
 
 // Tools
 import Alerts from './utils/Alerts'
-import ErrorHandler from './utils/ErrorHandler'
 
-export { Home, Login, PrivateRoute, Alerts };
+export { Home, Nav, Login, Register, PrivateRoute, Alerts };

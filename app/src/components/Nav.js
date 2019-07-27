@@ -1,9 +1,9 @@
 import React from 'react'
 import { Route, NavLink, withRouter } from 'react-router-dom'
 // import components
-import { Login, Alerts } from './'
+import { Home, Login, Alerts } from './'
 
-function Home() {
+function Nav() {
   return (
     <div className="home">
       <header>
@@ -14,11 +14,11 @@ function Home() {
           <button type="button" onClick={this.logout}>Logout</button>
         </nav>
       </header>
-      <h1>Home Page</h1>
-      <p>After a user logs</p>
-
+      
+      <Route exact path="/events" component={Home} />
+      <Route exact path="/new-event" component={Home} />
     </div>
   )
 }
 
-export default withRouter(Home)
+export default withRouter(Nav)

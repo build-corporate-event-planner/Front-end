@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { validateLoginForm } from "./validate";
 
-export const useHttp = (username, password, validation) => {
+const BASE_URL = `https://corporate-event-planner.herokuapp.com`
+
+export const useHttpLogin = (username, password, validation) => {
 
   // initial State  
   const [isLoading, setIsLoading] = useState(false)
@@ -11,12 +12,12 @@ export const useHttp = (username, password, validation) => {
 
   useEffect(() => {
     setIsLoading(true)
-    console.log("useHTTP")
-    console.log("Username: " + username)
-    console.log("Password: " + password)
+    console.log("useHttpLogin useEffect")
 
     // check validation
-    if (validation) {
+    if (validation && username && password) {
+      console.log("Username: " + username)
+      console.log("Password: " + password)
       console.log("running axios")
 
       const BASE_URL = `https://corporate-event-planner.herokuapp.com`
@@ -40,6 +41,39 @@ export const useHttp = (username, password, validation) => {
       //     console.log(err)
       //     setErrMsg(err)
       //   })
+    }
+  }, validation )
+
+  return [isLoading, errMsg]
+}
+
+export const useHttpRegister = (user, validation) => {
+
+  // initial State  
+  const [isLoading, setIsLoading] = useState(false)
+  // const [fetchedData, setFetchedData] = useState(null)
+  const [errMsg, setErrMsg] = useState(null)
+
+  useEffect(() => {
+    setIsLoading(true)
+    console.log("useHttpRegister useEffect")
+
+    // check validation
+    if (validation && user) {
+      console.log(user)
+      console.log("running axios")
+
+      axios.post(`${BASE_URL}/signup`, user)
+        .then((res) => {
+          console.log(res)
+          setIsLoading(false)
+          setErrMsg(null)
+        })
+        .catch((err) => {
+          console.log(err.response.data.message)
+          setErrMsg(err.response.data.message)
+          return errMsg
+        })
     }
   }, validation )
 
