@@ -7,7 +7,14 @@ import { useHttpRegister } from './http'
 function Register(props) {
 
   // Declare the login state variables
-  const [user, setUser] = useState( {} )
+  const [user, setUser] = useState( {
+    // username and email must be unique
+    "username": "User",
+    "email": "test@email.com",
+    "password": "hunter",
+    "role": "Role",
+    "companyname": "Company"
+  } )
   const [username, setUserName] = useState("")
   const [email, setEmail] = useState("")
   const [newPassword, setNewPassword] = useState("")
@@ -15,57 +22,52 @@ function Register(props) {
   const [role, setRole] = useState("")
   const [companyname, setCompany] = useState("")
   
-  const [isLoading, setIsLoading] = useState(false)
   const [isValid, setIsValid] = useState(false)
-  const [errMsg, setErrMsg] = useState(null);
+  const [errMsg, setErrMsg] = useState(null)
 
-  const result = useHttpRegister(user, [isValid, isLoading])
-
-  // if (result != ""){ setErrMsg(result) }
+  const result = useHttpRegister(user, [isValid])
+  console.log(result)
 
   const handleSubmit = (e) => {
-		e.preventDefault()
-        
+    e.preventDefault()
+    
     // Check for undefined or empty input fields
-    if (!username) {
-      setErrMsg("Please enter a valid Username.");
-      return "Please enter a valid Username."
-    }
-    if (!username || !newPassword) {
-      setErrMsg("Please enter a valid Username and password.");
-      return "Please enter a valid Username and password."
-    } else {
-      console.log("is Valid")
-      setIsValid(true)
-    }
-		// props.login(username, password)
-		// 	.then(() => {
-		// 		props.history.push("/")
-		// 	})
-		// 	.catch((err) => {
-		// 		console.error(err)
-		// 	})
-  
+    // if (!username || !email || !newPassword || !checkNewPassword ) {
+    //   setErrMsg("Please enter a valid Username, Email, and password combination.")
+    // }
+    
+    // // Check if passwords match
+    // if ( !(newPassword == checkNewPassword) ) {
+    //   setErrMsg("Please verify Password.")
+    // }
 
-    const user = {
-      // username and email must be unique
-      "username": "testuser",
-      "email": "JohnnyGuitar@Email.com",
-      "password": "password",
-      "role": "Air Guitar Instructor",
-      "companyname": "test company",
+    if (!errMsg) {
+      setUser({
+        "username": username,
+        "email": email,
+        "password": newPassword,
+        "role": role,
+        "companyname": companyname
+      })
+
+      console.log(user)
+      // props.history.push("/")
     }
 
-	}
+    if (result[0]) { setErrMsg(result[0])}
+    if (result[1]) {
+      setTimeout(function() { 
+        props.history.push("/")
+      }, 1000);
+    }
+  }
 
   return (
     <div className="register">
       <h1>Register</h1>
 
-      {/* {result && <Alerts content={result} style="danger" />}
-      {errMsg && <Alerts content={errMsg} style="danger" />} */}
-      {result && <Alert color="danger"> {result} </Alert>}
-      {errMsg && <Alert color="danger"> {errMsg} </Alert>}
+      { result[0] && <div className="alert alert-danger" role="alert"> {result[0]} </div> }
+      { errMsg && <div className="alert alert-danger" role="alert"> {errMsg} </div> }
 
       <Form id="register" onSubmit={handleSubmit} >
         {/* UserName */}
@@ -131,9 +133,10 @@ function Register(props) {
           </InputGroup>
 
         <br />
-        {props.isLoading
+        {/* {props.isLoading
             ? <p>Registration in process...</p>
-            : <Button type="submit" disabled={isLoading} block={true}>Register</Button>}
+            : <Button type="submit" disabled={isLoading} block={true}>Register</Button>} */}
+        <Button type="submit" block={true}>Register</Button>
       </Form>
 
     </div>

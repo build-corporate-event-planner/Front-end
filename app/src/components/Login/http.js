@@ -51,23 +51,23 @@ export const useHttpRegister = (user, validation) => {
 
   // initial State  
   const [isLoading, setIsLoading] = useState(false)
-  // const [fetchedData, setFetchedData] = useState(null)
   const [errMsg, setErrMsg] = useState(null)
+  const [resultSuccess, setResultSuccess] = useState(false)
 
   useEffect(() => {
     setIsLoading(true)
-    console.log("useHttpRegister useEffect")
+    console.log(validation)
 
     // check validation
-    if (validation && user) {
-      console.log(user)
+    if (validation[0] && user.username && user.email) {
       console.log("running axios")
 
       axios.post(`${BASE_URL}/signup`, user)
         .then((res) => {
           console.log(res)
-          setIsLoading(false)
-          setErrMsg(null)
+          console.log("Success")
+          setResultSuccess(true)
+          setErrMsg(null)          
         })
         .catch((err) => {
           console.log(err.response.data)
@@ -98,8 +98,10 @@ export const useHttpRegister = (user, validation) => {
             }
           }
         })
+    } else {
+      console.log("Invalid User entered.")
     }
   }, [])
 
-  return [isLoading, errMsg]
+  return [errMsg, resultSuccess]
 }

@@ -15,8 +15,7 @@ export default function App() {
         {errMsg && <Alerts content={errMsg} style="warning" />}
 
         <PrivateRoute path="/" component={Nav} />
-        <Route exact path="/login" component={Register} />
-        {/* <Route exact path="/login" component={Login} /> */}
+        <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
       </div>
   )
