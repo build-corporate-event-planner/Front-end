@@ -1,75 +1,84 @@
-import React, { useState } from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import React from 'react'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { login } from '../../actions'
 import { Button, Form, FormGroup, Input } from "reactstrap";
-import { useHttpLogin } from './http'
-import { Alerts, Register } from '../'
 
-function Login(props) {
-
-  // Declare the login state variables
-  const [username, setUser] = useState("")
-  const [currentPassword, setCurrentPassword] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [isValid, setIsValid] = useState(false)
-  const [errMsg, setErrMsg] = useState(null);
-
-  useHttpLogin(username, currentPassword, [isValid, isLoading])
-
-  const handleChange = (e) => {
-		e.preventDefault()
-
-    switch (e.target.name) {
-      case "username": setUser(e.target.value); // JohnTheAirGuitarSmith
-      case "current-password": setCurrentPassword(e.target.value); // NotPassword1234
-    }
-  }
-
-  const handleSubmit = (e) => {
-		e.preventDefault()
-
-    // Check for undefined or empty input fields
-    if (!username || !currentPassword) {
-      setErrMsg("Please enter a valid Username and password.");
-    } else {
-      console.log("is Valid")
-      setIsValid(true)
-    }
-		// props.login(username, password)
-		// 	.then(() => {
-		// 		props.history.push("/")
-		// 	})
-		// 	.catch((err) => {
-		// 		console.error(err)
-		// 	})
-  
-
+class Login extends React.Component {
+	constructor() {
+		super()
+		this.state = {
+			username: '',
+			password: '',
+		}
 	}
 
-  return (
-    <div className="Login">
-      <h1>Login</h1>
+	handleChange = (evt) => {
+		evt.preventDefault()
 
-      {errMsg && <Alerts content={errMsg} style="danger" />}
+		this.setState({
+			[evt.target.name]: evt.target.value,
+		})
+	}
 
-      <Form onSubmit={handleSubmit}>
-        <FormGroup>
-          <Input type="text" name="username" placeholder="Username" autocomplete="username" 
-            value={username} onChange={handleChange} />
-        </FormGroup>
-        <FormGroup>
-          <Input type="password" name="current-password" placeholder="Password" autocomplete="current-password" 
-            value={currentPassword} onChange={handleChange} />
-        </FormGroup>
+	handleSubmit = (evt) => {
+		evt.preventDefault()
 
-				{props.isLoading
-					? <p>Logging in...</p>
-					: <Button type="submit" disabled={isLoading} block={true}>Login</Button>}
-      </Form>
+		const { username, password } = this.state
 
-      <Link to='/register'> Register a New User </Link>
+		this.props.login(username, password)
+			.then(() => {
+				this.props.history.push("/")
+			})
+			.catch((err) => {
+				console.error(err)
+			})
+	}
 
-    </div>
-  )
+	render() {
+		const { username, password } = this.state
+		const { isLoading, errMsg } = this.props
+
+		return (
+			<div className="Login">
+			  <h1>Login</h1>
+		
+			  {errMsg && <div className="alert alert-danger" role="alert"> {errMsg} </div> }
+		
+			  <Form onSubmit={this.handleSubmit}>
+				<FormGroup>
+				  <Input type="text" name="username" placeholder="Username" autoComplete="username" 
+					value={username} onChange={this.handleChange} />
+				</FormGroup>
+				<FormGroup>
+				  <Input type="password" name="password" placeholder="Password" autoComplete="current-password" 
+					value={password} onChange={this.handleChange} />
+				</FormGroup>
+		
+						{this.props.isLoading
+							? <p>Logging in...</p>
+							: <Button type="submit" disabled={isLoading} block={true}>Login</Button>}
+			  </Form>
+		
+			  {/* <Link to='/register'> Register a New User </Link> */}
+		
+			</div>
+		)
+	}
 }
 
-export default withRouter(Login)
+const mapStateToProps = (state) => ({
+	isLoading: state.isLoading,
+	errMsg: state.errMsg,
+})
+
+const mapDispatchToProps = {
+	login,
+}
+
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps,
+	)(Login)
+)
