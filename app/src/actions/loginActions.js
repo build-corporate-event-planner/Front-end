@@ -22,12 +22,13 @@ export function login(username, password) {
 			  Authorization: `Basic ${window.btoa("lambda-client:lambda-secret")}`
 			}})
 			.then((res) => {
-				localStorage.setItem('token', res.data.payload)
+        console.log(res.data)
+				// localStorage.setItem('token', res.data)
 				dispatch({ type: LOGIN_SUCCESS })
 			})
 			.catch((err) => {
-				console.log(err.response.data.error)
-				const payload = err.response ? err.response.data.error : err
+				console.log(err.response.data)
+				const payload = err.response ? err.response.data : err
 				dispatch({ type: LOGIN_FAILED, payload })
 			})
 	}

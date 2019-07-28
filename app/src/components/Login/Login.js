@@ -11,7 +11,7 @@ class Login extends React.Component {
 			username: '',
 			password: '',
 		}
-	}
+	} 
 
 	handleChange = (evt) => {
 		evt.preventDefault()
@@ -26,13 +26,14 @@ class Login extends React.Component {
 
 		const { username, password } = this.state
 
+		console.log("Logging in")
 		this.props.login(username, password)
-			.then(() => {
-				this.props.history.push("/")
-			})
-			.catch((err) => {
-				console.error(err)
-			})
+			// .then(() => {
+			// 	// this.props.history.push("/")
+			// })
+			// .catch((err) => {
+			// 	console.error(err)
+			// })
 	}
 
 	render() {

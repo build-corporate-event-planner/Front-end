@@ -28,19 +28,25 @@ export const useHttpLogin = (username, password, validation) => {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Basic ${window.btoa("lambda-client:lambda-secret")}`
         }
-      });
+        })
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
 
       // axios.post('/oauth/token', { username, password })
-      //   .then((res) => {
-      //     console.log(res)
+      //   
+      //     
       //     // localStorage.setItem('token', res.data.payload)
       //     setIsLoading(false)
       //     setErrMsg(null)
       //   })
-      //   .catch((err) => {
-      //     console.log(err)
+      //   
+      //     
       //     setErrMsg(err)
-      //   })
+      //   
     }
   }, [] )
 
