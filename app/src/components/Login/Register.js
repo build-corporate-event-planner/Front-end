@@ -1,20 +1,13 @@
 import React, { useState } from 'react'
 import { withRouter, Link } from 'react-router-dom'
-import { Button, Form, InputGroup, InputGroupText, InputGroupAddon, Input } from "reactstrap";
+import { Alert, Button, Form, InputGroup, InputGroupText, InputGroupAddon, Input } from "reactstrap";
 import { useHttpRegister } from './http'
-import { Alerts } from '../'
+// import { Alerts } from '../'
 
 function Register(props) {
 
   // Declare the login state variables
-  const [user, setUser] = useState({
-      // username and email must be unique
-      "username": "testuser",
-      "email": "JohnnyGuitar@Email.com",
-      "password": "password",
-      "role": "Air Guitar Instructor",
-      "companyname": "test company",
-    })
+  const [user, setUser] = useState( {} )
   const [username, setUserName] = useState("")
   const [email, setEmail] = useState("")
   const [newPassword, setNewPassword] = useState("")
@@ -27,6 +20,8 @@ function Register(props) {
   const [errMsg, setErrMsg] = useState(null);
 
   const result = useHttpRegister(user, [isValid, isLoading])
+
+  // if (result != ""){ setErrMsg(result) }
 
   const handleSubmit = (e) => {
 		e.preventDefault()
@@ -67,8 +62,10 @@ function Register(props) {
     <div className="register">
       <h1>Register</h1>
 
-      {result && <Alerts content={result} style="danger" />}
-      {errMsg && <Alerts content={errMsg} style="danger" />}
+      {/* {result && <Alerts content={result} style="danger" />}
+      {errMsg && <Alerts content={errMsg} style="danger" />} */}
+      {result && <Alert color="danger"> {result} </Alert>}
+      {errMsg && <Alert color="danger"> {errMsg} </Alert>}
 
       <Form id="register" onSubmit={handleSubmit} >
         {/* UserName */}
@@ -87,7 +84,7 @@ function Register(props) {
               <InputGroupText>Email: </InputGroupText>
             </InputGroupAddon>
             <Input type="email" name="email" value={email} 
-              placeholder="email@address.com" autocomplete="email" 
+              placeholder="email@address.com" autoComplete="email" 
               onChange={(e) => setEmail(e.target.value)} />
           </InputGroup>
 
@@ -97,7 +94,7 @@ function Register(props) {
               <InputGroupText>Password: </InputGroupText>
             </InputGroupAddon>
             <Input type="password" name="newPassword" value={newPassword} 
-              placeholder="Password" autocomplete="new-password" 
+              placeholder="Password" autoComplete="new-password" 
               onChange={(e) => setNewPassword(e.target.value)} />
           </InputGroup>
 
@@ -107,7 +104,7 @@ function Register(props) {
               <InputGroupText>Password: </InputGroupText>
             </InputGroupAddon>
             <Input type="password" name="checkNewPassword" value={checkNewPassword} 
-              placeholder="Check Password" autocomplete="new-password" 
+              placeholder="Check Password" autoComplete="new-password" 
               onChange={(e) => setCheckNewPassword(e.target.value)} />
           </InputGroup>
 
@@ -143,5 +140,6 @@ function Register(props) {
   )
 }
 
-export default withRouter(Register)
+// export default withRouter(React.memo(Register))
+export default React.memo(Register)
 

@@ -42,7 +42,7 @@ export const useHttpLogin = (username, password, validation) => {
       //     setErrMsg(err)
       //   })
     }
-  }, validation )
+  }, [] )
 
   return [isLoading, errMsg]
 }
@@ -70,12 +70,36 @@ export const useHttpRegister = (user, validation) => {
           setErrMsg(null)
         })
         .catch((err) => {
-          console.log(err.response.data.message)
-          setErrMsg(err.response.data.message)
-          return errMsg
+          console.log(err.response.data)
+          const errResult = err.response.data.message
+
+          // Check if Empty
+          if (!errResult) { 
+            setErrMsg("No Result for Error.") 
+          } else {
+            // Set Error Message
+            setErrMsg(err.response.data.status + ": " + errResult)
+
+            if (errResult.includes("could not execute statement")) {
+              setErrMsg("could not execute statement")
+
+              // Check the Error
+              if (errResult.includes("ConstraintViolationException")) {
+                setErrMsg("Constraint Violation Exception")
+
+                // Check which value is causing error
+                if (errResult.includes("PUBLIC.USER(EMAIL)")) {
+                  setErrMsg("Email already registered.")
+                }
+                if (errResult.includes("PUBLIC.USER(USERNAME)")) {
+                  setErrMsg("Username already registered.")
+                }
+              }
+            }
+          }
         })
     }
-  }, validation )
+  }, [])
 
   return [isLoading, errMsg]
 }
