@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { login } from '../../actions'
 import { Button, Form, FormGroup, Input } from "reactstrap";
@@ -9,7 +9,8 @@ class Login extends React.Component {
 		super()
 		this.state = {
 			username: '',
-			password: '',
+      password: '',
+      checkToken: ''
 		}
 	} 
 
@@ -27,7 +28,11 @@ class Login extends React.Component {
 		const { username, password } = this.state
 
 		console.log("Logging in")
-		this.props.login(username, password)
+    this.props.login(username, password)
+
+    console.log("HandleSubmit" )
+    console.log(localStorage.getItem('token') )
+    this.setState({ checkToken: localStorage.getItem('token') })
 			// .then(() => {
 			// 	// this.props.history.push("/")
 			// })
@@ -37,8 +42,12 @@ class Login extends React.Component {
 	}
 
 	render() {
-		const { username, password } = this.state
-		const { isLoading, errMsg } = this.props
+		const { username, password, checkToken } = this.state
+    const { isLoading, errMsg } = this.props
+    
+    // if token then redirect ...
+    console.log(localStorage.getItem('token') )
+    if (checkToken) { this.props.history.push("/") }
 
 		return (
 			<div className="Login">
@@ -61,7 +70,7 @@ class Login extends React.Component {
 							: <Button type="submit" disabled={isLoading} block={true}>Login</Button>}
 			  </Form>
 		
-			  {/* <Link to='/register'> Register a New User </Link> */}
+			  <Link to='/register'> Register a New User </Link>
 		
 			</div>
 		)
@@ -73,9 +82,7 @@ const mapStateToProps = (state) => ({
 	errMsg: state.errMsg,
 })
 
-const mapDispatchToProps = {
-	login,
-}
+const mapDispatchToProps = { login }
 
 export default withRouter(
 	connect(
