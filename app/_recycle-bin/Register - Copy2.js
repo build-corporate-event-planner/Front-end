@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Alert, Button, Form, InputGroup, InputGroupText, InputGroupAddon, Input } from "reactstrap";
-import { login, register } from '../../actions'
+import { register } from '../../actions'
 
 class Register extends React.Component {
   constructor() {
@@ -11,84 +11,85 @@ class Register extends React.Component {
       user: {
         username: '',
         password: '',
-        checkPassword: '',
         email: '', 
         role: '', 
         companyname: ''
       }, 
-      checkPassword: '',
-      checkToken: '',
-      isSuccess: false,
-      errMessage: '',
+      checkToken: ''
     }
   } 
 
 	handleChange = (evt) => {
-    evt.preventDefault()
-
-		this.setState({ 
-      user: {
-        ...this.state.user, 
-        [evt.target.name]: evt.target.value,
-      }
-		})
-  }
-
-  handleCheckPassword = (evt) => {
-    evt.preventDefault()
+		evt.preventDefault()
 
 		this.setState({
-      [evt.target.name]: evt.target.value,
+			[evt.target.name]: evt.target.value,
 		})
 	}
 
-	handleSubmit = (evt) => {
-		evt.preventDefault()
-    const user = this.state.user
-    //const { username, email, password, checkPassword, role, companyname } = this.state.user
-    
-    // if (!(password == checkPassword)) {
-    //   console.log (password)
-    //   console.log (checkPassword)
-    //   this.setState({ 
-    //     errMessage: 'Passwords must match.'
-    //   })
-    // } else 
-    // if ( !username || !email || !password ) {
-    //   this.setState({ 
-    //     errMessage: 'Username, Email, and password are required.'
-    //   })
-    // } else {    
-      console.log(user)
-      const response = this.props.register(user)
+  // Declare the login state variables
+  // const [user, setUser] = useState( {
+  //   // username and email must be unique
+  //   "username": "User",
+  //   "email": "test@email.com",
+  //   "password": "hunter",
+  //   "role": "Role",
+  //   "companyname": "Company"
+  // } )
 
-      if (this.props.isSuccess) {
-        this.props.history.push("/login")
-      }
-    //}
-	}
+  // const result = "" //useHttpRegister(user, [isValid])
+  // console.log(result)
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault()
+    
+    // Check for undefined or empty input fields
+    // if (!username || !email || !newPassword || !checkNewPassword ) {
+    //   setErrMsg("Please enter a valid Username, Email, and password combination.")
+    // }
+    
+    // // Check if passwords match
+    // if ( !(newPassword == checkNewPassword) ) {
+    //   setErrMsg("Please verify Password.")
+    // }
+
+  //   if (!errMsg) {
+  //     setUser({
+  //       "username": username,
+  //       "email": email,
+  //       "password": newPassword,
+  //       "role": role,
+  //       "companyname": companyname
+  //     })
+
+  //     console.log(user)
+  //     // props.history.push("/")
+  //   }
+
+  //   if (result[0]) { setErrMsg(result[0])}
+  //   if (result[1]) {
+  //     setTimeout(function() { 
+  //       props.history.push("/")
+  //     }, 1000);
+  //   }
+  // }
 
 	render() {
-    const { username, email, password, checkPassword, role, companyname } = this.state.user
-    const { errMessage } = this.state
-    const { isLoading, errMsg, errMsgLogin } = this.props
-    
     return (
       <div className="register">
         <h1>Register</h1>
-        
-        { errMessage && <div className="alert alert-danger" role="alert"> {errMessage} </div> }
-        { errMsg && <div className="alert alert-danger" role="alert"> {errMsg} </div> }
-        { errMsgLogin && <div className="alert alert-warning" role="alert"> {errMsgLogin} </div> }
 
-        <Form id="register" onSubmit={this.handleSubmit} >
+        { result[0] && <div className="alert alert-danger" role="alert"> {result[0]} </div> }
+        { errMsg && <div className="alert alert-danger" role="alert"> {errMsg} </div> }
+
+        <Form id="register" onSubmit={handleSubmit} >
           {/* UserName */}
             <InputGroup>
               <InputGroupAddon addonType="prepend">
                 <InputGroupText>UserName: </InputGroupText>
               </InputGroupAddon>
               <Input type="text" name="username" value={username} 
-                placeholder="Username"
+                placeholder="Username" autoComplete="username" 
                 onChange={this.handleChange} />
             </InputGroup>
 
@@ -98,7 +99,7 @@ class Register extends React.Component {
                 <InputGroupText>Email: </InputGroupText>
               </InputGroupAddon>
               <Input type="email" name="email" value={email} 
-                placeholder="email@address.com"
+                placeholder="email@address.com" autoComplete="email" 
                 onChange={this.handleChange} />
             </InputGroup>
 
@@ -107,8 +108,8 @@ class Register extends React.Component {
               <InputGroupAddon addonType="prepend">
                 <InputGroupText>Password: </InputGroupText>
               </InputGroupAddon>
-              <Input type="password" name="password" value={password} 
-                placeholder="Password" 
+              <Input type="password" name="newPassword" value={newPassword} 
+                placeholder="Password" autoComplete="new-password" 
                 onChange={this.handleChange} />
             </InputGroup>
 
@@ -117,8 +118,8 @@ class Register extends React.Component {
               <InputGroupAddon addonType="prepend">
                 <InputGroupText>Password: </InputGroupText>
               </InputGroupAddon>
-              <Input type="password" name="checkPassword" value={checkPassword} 
-                placeholder="Check Password"
+              <Input type="password" name="checkNewPassword" value={checkNewPassword} 
+                placeholder="Check Password" autoComplete="new-password" 
                 onChange={this.handleChange} />
             </InputGroup>
 
@@ -136,7 +137,7 @@ class Register extends React.Component {
           {/* Company Name */}
             <InputGroup>
               <InputGroupAddon addonType="prepend">
-                <InputGroupText>Company: </InputGroupText>
+                <InputGroupText>Role: </InputGroupText>
               </InputGroupAddon>
               <Input type="text" name="companyname"
                 value={companyname} 
@@ -145,9 +146,10 @@ class Register extends React.Component {
             </InputGroup>
 
           <br />
-          {isLoading
+          {/* {props.isLoading
               ? <p>Registration in process...</p>
-              : <Button type="submit" disabled={isLoading} block={true}>Register</Button>}
+              : <Button type="submit" disabled={isLoading} block={true}>Register</Button>} */}
+          <Button type="submit" block={true}>Register</Button>
         </Form>
 
       </div>
@@ -156,12 +158,8 @@ class Register extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  isLoading: state.registerReducer.isLoading,
-  isSuccess: state.registerReducer.isSuccess,
-	errMsg: state.registerReducer.errMsg,
-  isLoginLoading: state.loginReducer.isLoading,
-  isLoginSuccess: state.loginReducer.isSuccess,
-	errMsgLogin: state.loginReducer.errMsg,
+	isLoading: state.isLoading,
+	errMsg: state.errMsg,
 })
 
 const mapDispatchToProps = { register }

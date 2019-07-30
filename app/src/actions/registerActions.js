@@ -2,34 +2,55 @@
 import axios from 'axios'
 
 // Login action types
-export const LOGIN_START = 'LOGIN_START'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGIN_FAILED = 'LOGIN_FAILED'
+export const REGISTER_START = 'REGISTER_START'
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
+export const REGISTER_FAILED = 'REGISTER_FAILED'
 
 // action creator for login
-export function login(username, password) {
+export function register(user) {
 	return (dispatch) => {
-		dispatch({ type: LOGIN_START })
-		console.log("Username: " + username) // JohnTheAirGuitarSmith
-		console.log("Password: " + password) // NotPassword1234
+		dispatch({ type: REGISTER_START })
 
 		const BASE_URL = `https://corporate-event-planner.herokuapp.com`
-		const body = `grant_type=password&username=${username}&password=${password}`
 
-		return axios.post(`${BASE_URL}/oauth/token`, body, {
-			headers: {
-			  "Content-Type": "application/x-www-form-urlencoded",
-			  Authorization: `Basic ${window.btoa("lambda-client:lambda-secret")}`
-			}})
+		return axios.post(`${BASE_URL}/signup`, user)
 			.then((res) => {
-        console.log(res.data)
-				localStorage.setItem('token', res.data.access_token)
-				dispatch({ type: LOGIN_SUCCESS })
+			  console.log("Reigster Success")
+			  console.log(res)
+			  dispatch({ type: REGISTER_SUCCESS })
 			})
 			.catch((err) => {
-				console.log(err.response.data)
-				const payload = err.response ? err.response.data : err
-				dispatch({ type: LOGIN_FAILED, payload })
+			  console.log("Register Failed")
+			  console.log(err)
+			  const errResult = err.response.data.message
+			  let payload = ""
+	
+			  // Check if Empty
+			  if (!errResult) { 
+				payload = "No Result for Error."
+			  } else {
+				// Set Error Message
+				payload = err.response.data.status + ": " + errResult
+	
+				if (errResult.includes("could not execute statement")) {
+				  payload = "could not execute statement"
+	
+				  // Check the Error
+				  if (errResult.includes("ConstraintViolationException")) {
+					  payload = "Constraint Violation Exception"
+	
+					// Check which value is causing error
+					if (errResult.includes("PUBLIC.USER(EMAIL)")) {
+					  payload = "Email already registered."
+					}
+					if (errResult.includes("PUBLIC.USER(USERNAME)")) {
+					  payload = "Username already registered."
+					}
+				  }
+				}
+        }
+        
+        dispatch({ type: REGISTER_FAILED, payload })
 			})
-	}
+		}
 }

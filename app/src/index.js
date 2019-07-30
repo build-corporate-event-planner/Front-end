@@ -6,7 +6,7 @@
 	import { Provider } from 'react-redux'
 	import thunk from 'redux-thunk'
 // import css
-	import './index.css';
+	import './css/index.css';
 	import 'bootstrap/dist/css/bootstrap.min.css';
 // import App
 	import App from './components/App';

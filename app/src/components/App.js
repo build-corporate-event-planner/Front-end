@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Route } from 'react-router-dom'
+// import CSS component 
+import CSS from '../css/'
 // import components
 import { Home, Nav, PrivateRoute, Login, Register, Alerts } from './'
 
@@ -11,6 +13,7 @@ export default function App() {
 
   return (
       <div className="App">
+        <CSS />
 
         {errMsg && <Alerts content={errMsg} style="warning" />}
 

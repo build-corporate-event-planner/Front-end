@@ -20,22 +20,3 @@ code {
 a {
   text-decoration: none;
 }
-
-nav a {
-  margin: 10px;
-}
-
-h2 {
-  text-align: center;
-}
-
-.home {
-  margin: 0 auto;
-  text-align: center;
-}
-
-button {
-  margin: 10px;
-  height: 50px;
-  width: 150px;
-}

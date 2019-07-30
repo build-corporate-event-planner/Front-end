@@ -1,24 +1,46 @@
 import React from 'react'
 import { Route, NavLink, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { logout } from '../actions'
 // import components
 import { Home, Login, Alerts } from './'
 
-function Nav() {
-  return (
-    <div className="home">
-      <header>
-        <nav>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/events">Events</NavLink>
-          <NavLink to="/new-event">New Event</NavLink>
-          <button type="button" onClick={this.logout}>Logout</button>
-        </nav>
-      </header>
-      
-      <Route exact path="/events" component={Home} />
-      <Route exact path="/new-event" component={Home} />
-    </div>
-  )
+class Nav extends React.Component {
+
+  logout = () => {
+    // Logout Call
+    this.props.logout()
+  }
+
+  render() {
+    return (
+      <div className="main">
+        <header>
+          <nav>
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/events">Events</NavLink>
+            <NavLink to="/new-event">New Event</NavLink>
+            <button type="button" onClick={this.logout}>Logout</button>
+          </nav>
+        </header>
+
+        
+        <Route exact path="/" component={Home} />
+        <Route exact path="/events" component={Home} />
+        <Route exact path="/new-event" component={Home} />
+      </div>
+    )
+  }
 }
 
-export default withRouter(Nav)
+const mapStateToProps = (state) => ({
+	isLoading: state.isLoading,
+	errMsg: state.errMsg,
+})
+
+export default withRouter(
+	connect(
+		mapStateToProps,
+		{ logout },
+	)(Nav)
+)

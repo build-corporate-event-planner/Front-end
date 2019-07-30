@@ -9,8 +9,8 @@ class Login extends React.Component {
 		super()
 		this.state = {
 			username: '',
-      password: '',
-      checkToken: ''
+			password: '',
+			checkToken: ''
 		}
 	} 
 
@@ -28,11 +28,11 @@ class Login extends React.Component {
 		const { username, password } = this.state
 
 		console.log("Logging in")
-    this.props.login(username, password)
+		this.props.login(username, password)
 
-    console.log("HandleSubmit" )
-    console.log(localStorage.getItem('token') )
-    this.setState({ checkToken: localStorage.getItem('token') })
+		console.log("HandleSubmit")
+		console.log(localStorage.getItem('token'))
+		this.setState({ checkToken: localStorage.getItem('token') })
 			// .then(() => {
 			// 	// this.props.history.push("/")
 			// })

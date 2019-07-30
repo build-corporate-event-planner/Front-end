@@ -6,6 +6,11 @@ export const LOGIN_START = 'LOGIN_START'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAILED = 'LOGIN_FAILED'
 
+// Logout action types
+export const LOGOUT_START = 'LOGOUT_START'
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+export const LOGOUT_FAILED = 'LOGOUT_FAILED'
+
 // action creator for login
 export function login(username, password) {
 	return (dispatch) => {
@@ -22,14 +27,35 @@ export function login(username, password) {
 			  Authorization: `Basic ${window.btoa("lambda-client:lambda-secret")}`
 			}})
 			.then((res) => {
-        console.log(res.data)
+        		console.log(res.data)
 				localStorage.setItem('token', res.data.access_token)
+				console.log(res.data.access_token)
 				dispatch({ type: LOGIN_SUCCESS })
 			})
 			.catch((err) => {
 				console.log(err.response.data)
 				const payload = err.response ? err.response.data : err
 				dispatch({ type: LOGIN_FAILED, payload })
+			})
+	}
+}
+
+// action creator for logout
+export function logout() {
+	return (dispatch) => {
+		dispatch({ type: LOGOUT_START })
+
+		const BASE_URL = `https://corporate-event-planner.herokuapp.com`
+
+		return axios.get(`${BASE_URL}/oauth/revoke-token`)
+			.then((res) => {
+        		console.log(res)
+				dispatch({ type: LOGOUT_SUCCESS })
+			})
+			.catch((err) => {
+				console.log(err.response)
+				const payload = err.response ? err.response.data : err
+				dispatch({ type: LOGOUT_FAILED, payload })
 			})
 	}
 }

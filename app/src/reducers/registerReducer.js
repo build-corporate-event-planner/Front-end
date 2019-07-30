@@ -1,30 +1,34 @@
-import { LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILED } from '../actions/loginActions';
+import { REGISTER_START, REGISTER_SUCCESS, REGISTER_FAILED } from '../actions/';
 
 const initialState = {
+  isLoading: false,
+  isSuccess: false,
   errMsg: null
 }
 
 // Our reducer that handles the action(s)
-export const loginReducer = (state = initialState, action) => {
+export const registerReducer = (state = initialState, action) => {
   switch (action.type) {
-		case LOGIN_START: {
+		case REGISTER_START: {
 			return {
 				...state,
 				isLoading: true,
 			}
 		}
-		case LOGIN_SUCCESS: {
+		case REGISTER_SUCCESS: {
 			return {
 				...state,
-				isLoading: false,
+        isLoading: false,
+        isSuccess: true,
 				errMsg: null,
 			}
 		}
-		case LOGIN_FAILED: {
+		case REGISTER_FAILED: {
 			return {
 				...state,
 				isLoading: false,
-				errMsg: action.payload.message,
+        isSuccess: false,
+				errMsg: action.payload,
 			}
 		}
     default:

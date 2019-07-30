@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 import { loginReducer } from './loginReducer';
-import { dataReducer } from './dataReducer';
+import { registerReducer } from './registerReducer';
+// import { dataReducer } from './dataReducer';
 
 
 export default combineReducers({
-  loginReducer,
-  dataReducer
+  loginReducer, 
+  registerReducer, 
+  // dataReducer
 });
