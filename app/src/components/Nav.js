@@ -7,9 +7,11 @@ import { Home, Login, Alerts } from './'
 
 class Nav extends React.Component {
 
-  logout = () => {
-    // Logout Call
-    this.props.logout()
+  logout = (evt) => {
+    evt.preventDefault()
+
+    localStorage.removeItem('token')
+    this.props.history.push('/login')
   }
 
   render() {
