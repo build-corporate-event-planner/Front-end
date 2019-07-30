@@ -11,7 +11,7 @@
 // import App
 	import App from './components/App';
 //import reducers
-	import rootReducer from './reducers'
+	import reducers from './reducers'
 
 // Log the State and report to console
 const logger = (store) => (next) => (action) => {
@@ -25,7 +25,7 @@ const logger = (store) => (next) => (action) => {
 }
 
 const store = createStore(
-	rootReducer,
+	reducers,
 	// compose multiple middleware flows together into one flow
 	compose(
 		applyMiddleware(thunk, logger),

@@ -1,11 +1,24 @@
 import React from 'react'
 import { Route, NavLink, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { logout } from '../actions'
 // import components
 import { Home, Login, Alerts } from './'
+// import actions
+import { getData, logout } from '../actions/';
 
 class Nav extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      events: []
+    }
+  }
+
+	componentDidMount() {
+    // call our action
+    const baseUrl = this.props.baseUrl
+		this.props.getData(baseUrl);
+  }
 
   logout = (evt) => {
     evt.preventDefault()
@@ -36,13 +49,15 @@ class Nav extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-	isLoading: state.isLoading,
-	errMsg: state.errMsg,
+  baseUrl: state.dataReducer.baseUrl,
+  events: state.dataReducer.data,
+  // eventByID: state.dataReducer.dataByID,
+	isDataLoading: state.dataReducer.isLoading,
+	errMsgData: state.dataReducer.errMsg,
 })
 
+const mapDispatchToProps = { getData, logout };
+
 export default withRouter(
-	connect(
-		mapStateToProps,
-		{ logout },
-	)(Nav)
+	connect( mapStateToProps, mapDispatchToProps )(Nav)
 )

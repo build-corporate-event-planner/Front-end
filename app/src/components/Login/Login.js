@@ -9,10 +9,19 @@ class Login extends React.Component {
 		super()
 		this.state = {
 			username: '',
-			password: '',
-			checkToken: ''
+			password: ''
 		}
-	} 
+	}
+
+	componentDidMount() {
+		console.log(localStorage.getItem('token'))
+		const checkToken = localStorage.getItem('token')
+
+		if (checkToken) {
+			this.props.history.push("/")
+		}
+
+	}
 
 	handleChange = (evt) => {
 		evt.preventDefault()
@@ -31,8 +40,8 @@ class Login extends React.Component {
 		this.props.login(username, password)
 
 		console.log("HandleSubmit")
-		console.log(localStorage.getItem('token'))
-		this.setState({ checkToken: localStorage.getItem('token') })
+		
+		
 			// .then(() => {
 			// 	// this.props.history.push("/")
 			// })
@@ -46,7 +55,6 @@ class Login extends React.Component {
     const { isLoading, errMsg } = this.props
     
     // if token then redirect ...
-    console.log(localStorage.getItem('token') )
     if (checkToken) { this.props.history.push("/") }
 
 		return (
@@ -71,6 +79,10 @@ class Login extends React.Component {
 			  </Form>
 		
 			  <Link to='/register'> Register a New User </Link>
+
+			  <p>Sample Data <br />
+			  Username: LambdaTestUser <br />
+			  Password: pass</p>
 		
 			</div>
 		)
