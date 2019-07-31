@@ -15,11 +15,11 @@ class Login extends React.Component {
 
 	componentDidMount() {
 		console.log(localStorage.getItem('token'))
-		const checkToken = localStorage.getItem('token')
+		// const checkToken = localStorage.getItem('token')
 
-		if (checkToken) {
-			this.props.history.push("/")
-		}
+		// if (checkToken) {
+		// 	this.props.history.push("/")
+		// }
 
 	}
 
@@ -33,29 +33,16 @@ class Login extends React.Component {
 
 	handleSubmit = (evt) => {
 		evt.preventDefault()
-
 		const { username, password } = this.state
-
-		console.log("Logging in")
 		this.props.login(username, password)
-
-		console.log("HandleSubmit")
-		
-		
-			// .then(() => {
-			// 	// this.props.history.push("/")
-			// })
-			// .catch((err) => {
-			// 	console.error(err)
-			// })
 	}
 
 	render() {
 		const { username, password, checkToken } = this.state
-    const { isLoading, errMsg } = this.props
+    	const { isLoading, errMsg, successfulLogin } = this.props
     
     // if token then redirect ...
-    if (checkToken) { this.props.history.push("/") }
+    if (successfulLogin) { this.props.history.push("/") }
 
 		return (
 			<div className="Login">
@@ -90,8 +77,9 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-	isLoading: state.isLoading,
-	errMsg: state.errMsg,
+  isLoading: state.loginReducer.isLoading,
+  successfulLogin: state.loginReducer.successfulLogin,
+	errMsg: state.loginReducer.errMsg,
 })
 
 const mapDispatchToProps = { login }

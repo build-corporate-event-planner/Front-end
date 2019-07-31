@@ -16,18 +16,10 @@ class Nav extends React.Component {
 		}
 	}
 
-	async componentDidMount() {
+	componentDidMount() {
     console.log('Component DID MOUNT!')
     // call our action
-    const response = await this.props.getData()
-    console.log(response)
-
-    // console.log(response)
-    // this.setState({ errMsg: this.props.errMsgData })
-    // const responseMsg = await response
-    // console.log(responseMsg)
-    // const errMessage = await this.props.errMsgData;
-    // console.log("After Await")
+    this.props.getData()
 
   }
   shouldComponentUpdate(newProps, newState) {
@@ -46,11 +38,7 @@ class Nav extends React.Component {
   }
 
   checkForError = (error) =>  {
-    // console.log(JSON.stringify(error))
     console.log(error.message)
-    console.log(error.name)
-    console.log(error.stack)
-    console.log(error.config)
     if (error.message.includes("status code 401")) {
       this.logout()
     }
@@ -60,11 +48,6 @@ class Nav extends React.Component {
     const { events } = this.props
     const errMsg = this.state.errMsg
     const errMsgData = this.props.errMsgData
-    // if(this.props.errMsgData.message) {
-    //  console.log(this.props.errMsgData)
-    //  errMsg.message = this.state.errMsg.message
-    // }
-    // const errMsg = this.props.errMsgData.message
 
     if (errMsgData) {
       // This happens if an Error message is returned from getData
