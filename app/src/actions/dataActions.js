@@ -11,15 +11,16 @@ export const GET_BY_ID = 'GET_BY_ID'// request fails
 export const GET_SUCCESS = 'GET_SUCCESS' // request successful
 export const GET_FAILED = 'GET_FAILED'// request fails 
 
+const headers = {
+	Authorization: `Bearer ${localStorage.getItem('token')}`
+}
+
 // action creator to fetch Data
 export function getData() {
 	return (dispatch) => { 
 		// enter the "loading" state
 		dispatch({ type: GET_START })
 		
-		const headers = {
-			Authorization: `Bearer ${localStorage.getItem('token')}`
-		}
 		axios.get(`${baseUrl}/events/all`, { headers })
 			.then((res) => {
 				dispatch({ type: GET_SUCCESS, payload: res.data })
@@ -34,10 +35,7 @@ export function getData() {
 export function getByID(id) {
 	return (dispatch) => { 
 		dispatch({ type: GET_START })
-		
-		const headers = {
-			authorization: localStorage.getItem('token'),
-		}
+
 		axios.get(`${baseUrl}/events/${id}`, { headers })
 			.then((res) => {
 				dispatch({ type: GET_BY_ID, payload: res.data })

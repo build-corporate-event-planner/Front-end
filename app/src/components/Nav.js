@@ -41,10 +41,17 @@ class Nav extends React.Component {
 
     if (errMsgData) {
       // This happens if an Error message is returned from getData
-      this.checkForError(errMsgData)
-      return <div>
+      // this.checkForError(errMsgData)
+      return <div className="alert alert-danger" role="alert">
         <p>Error Happened ... </p>
         <p>{errMsgData.message} </p>
+        <button type="button" onClick={window.location.reload}>Reload Page</button>
+
+        {/* If Error is Status 401, offer Logout Button. */}
+        {(errMsgData.message.includes("status code 401"))
+          ? <button type="button" onClick={this.logout}>Logout</button>
+          : ''}
+
         </div>;
     }
     if (this.props.isLoading) {
