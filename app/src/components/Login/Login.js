@@ -14,7 +14,6 @@ class Login extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log(localStorage.getItem('token'))
 		// const checkToken = localStorage.getItem('token')
 
 		// if (checkToken) {

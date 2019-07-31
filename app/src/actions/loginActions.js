@@ -15,8 +15,6 @@ export const LOGOUT_FAILED = 'LOGOUT_FAILED'
 export function login(username, password) {
 	return (dispatch) => {
 		dispatch({ type: LOGIN_START })
-		console.log("Username: " + username) // JohnTheAirGuitarSmith
-		console.log("Password: " + password) // NotPassword1234
 
 		const BASE_URL = `https://corporate-event-planner.herokuapp.com`
 		const body = `grant_type=password&username=${username}&password=${password}`
@@ -27,13 +25,10 @@ export function login(username, password) {
 			  Authorization: `Basic ${window.btoa("lambda-client:lambda-secret")}`
 			}})
 			.then((res) => {
-        		console.log(res.data)
 				localStorage.setItem('token', res.data.access_token)
-				console.log(res.data.access_token)
 				dispatch({ type: LOGIN_SUCCESS })
 			})
 			.catch((err) => {
-				console.log(err.response.data)
 				const payload = err.response ? err.response.data : err
 				dispatch({ type: LOGIN_FAILED, payload })
 			})
@@ -49,11 +44,9 @@ export function logout() {
 
 		return axios.get(`${BASE_URL}/oauth/revoke-token`)
 			.then((res) => {
-        		console.log(res)
 				dispatch({ type: LOGOUT_SUCCESS })
 			})
 			.catch((err) => {
-				console.log(err.response)
 				const payload = err.response ? err.response.data : err
 				dispatch({ type: LOGOUT_FAILED, payload })
 			})
