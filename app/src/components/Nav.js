@@ -3,32 +3,81 @@ import { Route, NavLink, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 // import components
-import { Home, Login, Alerts } from './'
+import { Home, Login, Alerts, Events } from './'
 
 // import actions
 import { getData, logout } from '../actions/';
 
 class Nav extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      events: []
-    }
-  }
+	constructor() {
+		super()
+		this.state = {
+			errMsg: ''
+		}
+	}
 
-	componentDidMount() {
+	async componentDidMount() {
+    console.log('Component DID MOUNT!')
     // call our action
-		this.props.getData();
+    const response = await this.props.getData()
+    console.log(response)
+
+    // console.log(response)
+    // this.setState({ errMsg: this.props.errMsgData })
+    // const responseMsg = await response
+    // console.log(responseMsg)
+    // const errMessage = await this.props.errMsgData;
+    // console.log("After Await")
+
+  }
+  shouldComponentUpdate(newProps, newState) {
+     return true;
+  }
+  componentDidUpdate(prevProps, prevState) {
+     console.log('Component DID UPDATE!')
+  }
+  componentWillUnmount() {
+     console.log('Component WILL UNMOUNT!')
   }
 
-  logout = (evt) => {
-    evt.preventDefault()
-
+  logout = () => {
     localStorage.removeItem('token')
     this.props.history.push('/login')
   }
 
+  checkForError = (error) =>  {
+    // console.log(JSON.stringify(error))
+    console.log(error.message)
+    console.log(error.name)
+    console.log(error.stack)
+    console.log(error.config)
+    if (error.message.includes("status code 401")) {
+      this.logout()
+    }
+  }
+
   render() {
+    const { events } = this.props
+    const errMsg = this.state.errMsg
+    const errMsgData = this.props.errMsgData
+    // if(this.props.errMsgData.message) {
+    //  console.log(this.props.errMsgData)
+    //  errMsg.message = this.state.errMsg.message
+    // }
+    // const errMsg = this.props.errMsgData.message
+
+    if (errMsgData) {
+      // This happens if an Error message is returned from getData
+      this.checkForError(errMsgData)
+      return <div>
+        <p>Error Happened ... </p>
+        <p>{errMsgData.message} </p>
+        </div>;
+    }
+    if (this.props.isLoading) {
+      // indicate component is fetching data
+      return <div>Loading ... </div>;
+    }
     return (
       <div className="main">
         <header>
@@ -40,9 +89,10 @@ class Nav extends React.Component {
           </nav>
         </header>
 
+        {errMsg && <p className="error">{errMsg}</p>}
         
         <Route exact path="/" component={Home} />
-        <Route exact path="/events" component={Home} />
+        <Route exact path="/events" exact render={props => <Events {...props} events={events} />} />
         <Route exact path="/new-event" component={Home} />
       </div>
     )
@@ -50,7 +100,6 @@ class Nav extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  baseUrl: state.dataReducer.baseUrl,
   events: state.dataReducer.data,
   // eventByID: state.dataReducer.dataByID,
 	isDataLoading: state.dataReducer.isLoading,
@@ -59,6 +108,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = { getData, logout };
 
-export default withRouter(
-	connect( mapStateToProps, mapDispatchToProps )(Nav)
+export default React.memo(withRouter(
+	connect( mapStateToProps, mapDispatchToProps )(Nav))
 )

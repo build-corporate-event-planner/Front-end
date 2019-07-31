@@ -7,7 +7,10 @@ import Login from './Login/Login'
 import Register from './Login/Register'
 import PrivateRoute from './Login/PrivateRoute'
 
+// Data Components
+import Events from './events/Events'
+
 // Tools
 import Alerts from './utils/Alerts'
 
-export { Home, Nav, Login, Register, PrivateRoute, Alerts };
+export { Home, Nav, Login, Register, PrivateRoute, Alerts, Events };

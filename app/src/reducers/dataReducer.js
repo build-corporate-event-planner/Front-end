@@ -4,8 +4,7 @@ const initialState = {
 	data: [],
 	dataByID: {},
     isLoading: false,
-    errMsg: null, 
-    baseUrl: `https://corporate-event-planner.herokuapp.com`
+    errMsg: null
 }
 
 // Our reducer that handles the action(s)
@@ -32,7 +31,7 @@ export const dataReducer = (state = initialState, action) => {
 			return {
 				...state,
 				isLoading: false,
-				errMsg: action.payload.message,
+				errMsg: action.payload,
 			}
 		}
 	// action type SUCCESS
