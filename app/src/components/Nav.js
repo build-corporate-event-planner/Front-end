@@ -1,8 +1,10 @@
 import React from 'react'
 import { Route, NavLink, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+
 // import components
 import { Home, Login, Alerts } from './'
+
 // import actions
 import { getData, logout } from '../actions/';
 
@@ -16,8 +18,7 @@ class Nav extends React.Component {
 
 	componentDidMount() {
     // call our action
-    const baseUrl = this.props.baseUrl
-		this.props.getData(baseUrl);
+		this.props.getData();
   }
 
   logout = (evt) => {
