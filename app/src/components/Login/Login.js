@@ -8,18 +8,9 @@ class Login extends React.Component {
 	constructor() {
 		super()
 		this.state = {
-			username: '',
-			password: ''
+			username: 'LambdaTestUser',
+			password: 'pass'
 		}
-	}
-
-	componentDidMount() {
-		// const checkToken = localStorage.getItem('token')
-
-		// if (checkToken) {
-		// 	this.props.history.push("/")
-		// }
-
 	}
 
 	handleChange = (evt) => {
@@ -67,7 +58,7 @@ class Login extends React.Component {
 			  <Link to='/register'> Register a New User </Link>
 
 			  <p>Sample Data <br />
-			  Username: LambdaTestUser <br />
+			  Username: LambdaTestUser<br />
 			  Password: pass</p>
 		
 			</div>

@@ -2,7 +2,8 @@
 import axios from 'axios'
 
 // import some Base Input
-import { baseUrl } from '../baseInput'
+import { baseInput } from '../baseInput'
+const baseUrl = baseInput.baseUrl
 
 // Data action types
 export const GET_START = 'GET_START' // fetching data
@@ -22,6 +23,24 @@ export function getData() {
 		axios.get(`${baseUrl}/events/all`, { headers })
 			.then((res) => {
 				dispatch({ type: GET_SUCCESS, payload: res.data })
+			})
+			.catch((err) => {
+				dispatch({ type: GET_FAILED, payload: err })
+			})
+	}
+}
+
+// action creator to fetch Data for single
+export function getByID(id) {
+	return (dispatch) => { 
+		dispatch({ type: GET_START })
+		
+		const headers = {
+			authorization: localStorage.getItem('token'),
+		}
+		axios.get(`${baseUrl}/events/${id}`, { headers })
+			.then((res) => {
+				dispatch({ type: GET_BY_ID, payload: res.data })
 			})
 			.catch((err) => {
 				dispatch({ type: GET_FAILED, payload: err })

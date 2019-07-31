@@ -3,7 +3,7 @@ import { Route, NavLink, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 // import components
-import { Home, Login, Alerts, Events } from './'
+import { Home, Login, Alerts, Events, Event } from './'
 
 // import actions
 import { getData, logout } from '../actions/';
@@ -66,6 +66,7 @@ class Nav extends React.Component {
         
         <Route exact path="/" component={Home} />
         <Route exact path="/events" exact render={props => <Events {...props} events={events} />} />
+        <Route path="/events/:id" render={props => <Event {...props} />} />
         <Route exact path="/new-event" component={Home} />
       </div>
     )
