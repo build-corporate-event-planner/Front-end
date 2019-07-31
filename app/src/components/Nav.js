@@ -20,16 +20,6 @@ class Nav extends React.Component {
     console.log('Component DID MOUNT!')
     // call our action
     this.props.getData()
-
-  }
-  shouldComponentUpdate(newProps, newState) {
-     return true;
-  }
-  componentDidUpdate(prevProps, prevState) {
-     console.log('Component DID UPDATE!')
-  }
-  componentWillUnmount() {
-     console.log('Component WILL UNMOUNT!')
   }
 
   logout = () => {
