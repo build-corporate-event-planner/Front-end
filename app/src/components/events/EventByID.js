@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Task from './Task'
 import User from './User'
 // import actions for Hooks
-import { GetDataHooks, getEventByID } from './http'
+import { GetDataHooks } from './http'
 
 // import some Base Input
 import { baseInput } from '../../baseInput'
@@ -24,7 +24,7 @@ function EventByID(props) {
 
   const id = props.match.params.id;
 
-  const [isLoading, errMsg, fetchedData] = getEventByID(baseUrl, [])
+  const [isLoading, errMsg, fetchedData] = GetDataHooks(baseUrl, [])
 
 	if (isLoading) {
     // fetching data
