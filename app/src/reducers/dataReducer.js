@@ -3,8 +3,8 @@ import { GET_START, GET_SUCCESS, GET_FAILED, GET_BY_ID } from "../actions/dataAc
 const initialState = {
 	data: [],
 	dataByID: {},
-    isLoading: false,
-    errMsg: null
+  isLoading: false,
+  errMsg: null
 }
 
 // Our reducer that handles the action(s)
