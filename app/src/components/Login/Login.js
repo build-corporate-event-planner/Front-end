@@ -9,7 +9,8 @@ class Login extends React.Component {
 		super()
 		this.state = {
 			username: 'LambdaTestUser',
-			password: 'pass'
+			password: 'pass',
+			errorMessage: ''
 		}
 	}
 
@@ -27,18 +28,60 @@ class Login extends React.Component {
 		this.props.login(username, password)
 	}
 
+	callLogin = () => {
+		// this.props.history.push('/login')
+		this.setState({
+			errorMessage: '',
+		})
+	}
+
 	render() {
 		const { username, password, checkToken } = this.state
-    	const { isLoading, errMsg, successfulLogin } = this.props
+    const { isLoading, errMsgLogin, successfulLogin } = this.props
     
     // if token then redirect ...
-    if (successfulLogin) { this.props.history.push("/") }
+		if (successfulLogin) { this.props.history.push("/") }
+		
+    // if Error
+    if (errMsgLogin) {
+			// Error Occured
+			console.log(errMsgLogin)
+			const errorMessage = ['Error occured: ']
+			if (errMsgLogin.data) {
+				if (errMsgLogin.status) {
+					errorMessage.push(`Status: ${errMsgLogin.status} ${errMsgLogin.statusText}`)
+				}
+				if (errMsgLogin.data.error) {
+					errorMessage.push(`Error: ${errMsgLogin.data.error}`)
+				}
+				if (errMsgLogin.data.error_description) {
+					errorMessage.push(`Description: ${errMsgLogin.data.error_description}`)
+				}
+				if (errMsgLogin.config.url) {
+					errorMessage.push(`URL: ${errMsgLogin.config.url}`)
+				}
+				if (errMsgLogin.config.data) {
+					errorMessage.push(`with ${errMsgLogin.config.data}`)
+				}
+			}
+
+			// Return errorMessage = JSON.stringify(errMsgLogin)
+			
+      return ( 
+				<div id="loginError" className="alert alert-danger" role="alert"> 
+					{errorMessage.map((x) => ( 
+						<p>{x}</p>
+					))}
+					<button type="button" onClick={this.callLogin}>Reload</button>
+				</div> ); 
+		}
 
 		return (
 			<div className="Login">
 			  <h1>Login</h1>
+				<div id="loginError"></div>
 		
-			  {errMsg && <div className="alert alert-danger" role="alert"> {errMsg} </div> }
+			  {/* {errMsgLogin && <div className="alert alert-danger" role="alert"> {errMsgLogin} </div> } */}
 		
 			  <Form onSubmit={this.handleSubmit}>
 				<FormGroup>
@@ -69,7 +112,7 @@ class Login extends React.Component {
 const mapStateToProps = (state) => ({
   isLoading: state.loginReducer.isLoading,
   successfulLogin: state.loginReducer.successfulLogin,
-	errMsg: state.loginReducer.errMsg,
+	errMsgLogin: state.loginReducer.errMsg,
 })
 
 const mapDispatchToProps = { login }

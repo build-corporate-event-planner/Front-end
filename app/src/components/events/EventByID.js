@@ -66,11 +66,3 @@ export default function(props) {
 		</div>
 	)
 }
-// tasklist: [ // tasks ...
-//   ],
-// userList: [ // list of objects each with a user object nested inside at key "user"
-//   {
-//     user: { // User object
-//     }
-//   }
-// ]

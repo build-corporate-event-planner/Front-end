@@ -31,7 +31,7 @@ export function getData() {
 	}
 }
 
-// action creator to fetch Data for single
+// action creator to fetch Data for single (only if user has access to the event)
 export function getByID(id) {
 	return (dispatch) => { 
 		dispatch({ type: GET_START })

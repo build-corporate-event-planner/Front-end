@@ -3,8 +3,9 @@ import { LOGOUT_START, LOGOUT_SUCCESS, LOGOUT_FAILED } from '../actions/loginAct
 
 const initialState = {
 	isLoading: false,
+  errMsg: null,
   successfulLogin: false,
-  errMsg: null
+  successfulLogout: false,
 }
 
 // Our reducer that handles the action(s)
@@ -20,15 +21,15 @@ export const loginReducer = (state = initialState, action) => {
 			return {
 				...state,
 				isLoading: false,
-				successfulLogin: true,
 				errMsg: null,
+				successfulLogin: true,
 			}
 		}
 		case LOGIN_FAILED: {
 			return {
 				...state,
 				isLoading: false,
-				errMsg: action.payload.message,
+				errMsg: action.payload,
 			}
 		}
 		case LOGOUT_START: {
@@ -42,13 +43,14 @@ export const loginReducer = (state = initialState, action) => {
 				...state,
 				isLoading: false,
 				errMsg: null,
+				successfulLogout: true,
 			}
 		}
 		case LOGOUT_FAILED: {
 			return {
 				...state,
 				isLoading: false,
-				errMsg: action.payload.message,
+				errMsg: action.payload,
 			}
 		}
     default:
