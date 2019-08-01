@@ -20,8 +20,8 @@ export const dataReducer = (state = initialState, action) => {
     // action type SUCCESS
 		case GET_SUCCESS: {
 			return {
-                ...state,
-                data: action.payload,
+				...state,
+				data: action.payload,
 				isLoading: false,
 				errMsg: null
 			}

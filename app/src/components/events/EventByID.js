@@ -8,7 +8,6 @@ import { GetDataHooks, getEventByID } from './http'
 // import some Base Input
 import { baseInput } from '../../baseInput'
 const baseUrl = baseInput.baseUrl
-console.log(baseUrl)
 
 function EventByID(props) {
   // Set Hooks state
@@ -22,23 +21,10 @@ function EventByID(props) {
     tasklist: [ ], // tasks are objects
     userList: [ ] // list of objects each with a user object nested inside at key "user"
   })
-  // const [isLoading, setIsLoading] = useState(true)
+
   const id = props.match.params.id;
 
   const [isLoading, errMsg, fetchedData] = getEventByID(baseUrl, [])
-  console.log(fetchedData)
-
-  // useEffect((fetchedData) => {
-  //   if (fetchedData) { setEvent(fetchedData) }
-  //   console.log(event)
-  // }, [] )
-
-  // Find a Single Event by ID
-  // useEffect(() => {
-  //   const eventByID = props.events.find(i => String(i.eventid) === id)
-  //   setEvent(eventByID)
-  //   setIsLoading(false)
-  // }, [])
 
 	if (isLoading) {
     // fetching data
@@ -47,7 +33,6 @@ function EventByID(props) {
   
   if (fetchedData) {
     const event = fetchedData.find(i => String(i.eventid) === id)
-    console.log(event)
     
     return (
       <div className="card">
