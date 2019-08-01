@@ -39,7 +39,7 @@ class Login extends React.Component {
 		const { username, password, checkToken } = this.state
     const { isLoading, errMsgLogin, successfulLogin } = this.props
     
-    // if token then redirect ...
+    // if successful then redirect ...
 		if (successfulLogin) { this.props.history.push("/") }
 		
     // if Error

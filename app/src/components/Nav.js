@@ -39,8 +39,8 @@ class Nav extends React.Component {
         </header>
         
         <Route exact path="/" component={Home} />
-        <Route path="/events" exact render={props => <Data {...props} callLogout={this.callLogout} />} />
-        <Route exact path="/events" exact render={props => <Events {...props} />} />
+        {/* <Route path="/events" exact render={props => <Data {...props} callLogout={this.callLogout} />} /> */}
+        <Route exact path="/events" exact render={props => <Events {...props} callLogout={this.callLogout} />} />
         <Route exact path="/events/:id" render={props => <EventByID {...props} />} />
         <Route exact path="/new-event"  render={props => <AddEvent {...props} />} />
       </div>

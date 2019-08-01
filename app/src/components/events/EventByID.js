@@ -2,10 +2,17 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import Task from './Task'
 import User from './User'
+// import actions for Hooks
+import { GetDataHooks, getEventByID } from './http'
 
-export default function(props) {
+// import some Base Input
+import { baseInput } from '../../baseInput'
+const baseUrl = baseInput.baseUrl
+console.log(baseUrl)
+
+function EventByID(props) {
   // Set Hooks state
-  const [event, setEvent] = useState({ 
+  const [eventByID, setEvent] = useState({ 
     eventid: 0,
     name: "",
     description: "",
@@ -13,56 +20,78 @@ export default function(props) {
     budget: "",
     companyname: "",
     tasklist: [ ], // tasks are objects
-    userList: [ { user: {} } ] // list of objects each with a user object nested inside at key "user"
+    userList: [ ] // list of objects each with a user object nested inside at key "user"
   })
-  const [isLoading, setIsLoading] = useState(true)
+  // const [isLoading, setIsLoading] = useState(true)
   const id = props.match.params.id;
 
-  // Find a Single Event by ID
-  useEffect(() => {
-    const eventByID = props.events.find(i => String(i.eventid) === id)
-    setEvent(eventByID)
-    setIsLoading(false)
-  }, [])
+  const [isLoading, errMsg, fetchedData] = getEventByID(baseUrl, [])
+  console.log(fetchedData)
 
-	if (props.isLoading) {
+  // useEffect((fetchedData) => {
+  //   if (fetchedData) { setEvent(fetchedData) }
+  //   console.log(event)
+  // }, [] )
+
+  // Find a Single Event by ID
+  // useEffect(() => {
+  //   const eventByID = props.events.find(i => String(i.eventid) === id)
+  //   setEvent(eventByID)
+  //   setIsLoading(false)
+  // }, [])
+
+	if (isLoading) {
     // fetching data
 		return <div>Loading ... </div>;
-	}
+  }
+  
+  if (fetchedData) {
+    const event = fetchedData.find(i => String(i.eventid) === id)
+    console.log(event)
+    
+    return (
+      <div className="card">
+        <h3>{event.name}</h3>
 
-	return (
-		<div className="card">
-      <h3>{event.name}</h3>
+        <div className='date'>{event.date}</div>
 
-      <div className='date'>{event.date}</div>
+        <div className='description'>
+          <h5>Description</h5>
+          <p>{event.description}</p>
+        </div>
 
-      <div className='description'>
-        <h5>Description</h5>
-        <p>{event.description}</p>
+        <div className='budget'>
+          <h5>Budget</h5>
+          <p>{event.budget}</p>
+        </div>
+
+        <div className='companyname'>
+          <h5>Company Name</h5>
+          <p>{event.companyname}</p>
+        </div>
+
+        <div className='tasklist'>
+          <h5>Tasklist</h5>
+            {(event.tasklist) 
+            ? event.tasklist.map((x) => {
+              return ( <Task key={x.taskid} task={x} /> )})
+            : 'No Tasks'
+            }
+        </div>
+
+        <div className='userList'>
+          <h5>User List</h5>
+            {(event.userList) 
+            ? event.userList.map((x) => {
+              return ( <User key={x} user={x} /> )})
+            : 'No User List'
+            }
+        </div>
+
       </div>
+    )
+  }
 
-      <div className='budget'>
-        <h5>Budget</h5>
-        <p>{event.budget}</p>
-      </div>
-
-      <div className='companyname'>
-        <h5>Company Name</h5>
-        <p>{event.companyname}</p>
-      </div>
-
-      <div className='tasklist'>
-        <h5>Tasklist</h5>
-          {event.tasklist.map((task) => {
-            return ( <Task key={task.taskid} task={task} /> )})}
-      </div>
-
-      <div className='userList'>
-        <h5>User List</h5>
-          {event.userList.map((user, i) => {
-            return ( <User key={i} user={user} /> )})}
-      </div>
-
-		</div>
-	)
+  return <div>App is Loading ... </div>;
 }
+export default EventByID
