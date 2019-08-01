@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import Task from './Task'
+import User from './User'
 
 export default function(props) {
   // Set Hooks state
@@ -25,12 +26,10 @@ export default function(props) {
   }, [])
 
 	if (props.isLoading) {
-    // return something here to indicate that you are fetching data
-    console.log(event)
+    // fetching data
 		return <div>Loading ... </div>;
 	}
 
-  console.log(event)
 	return (
 		<div className="card">
       <h3>{event.name}</h3>
@@ -55,8 +54,13 @@ export default function(props) {
       <div className='tasklist'>
         <h5>Tasklist</h5>
           {event.tasklist.map((task) => {
-            console.log(task)
             return ( <Task key={task.taskid} task={task} /> )})}
+      </div>
+
+      <div className='userList'>
+        <h5>User List</h5>
+          {event.userList.map((user, i) => {
+            return ( <User key={i} user={user} /> )})}
       </div>
 
 		</div>

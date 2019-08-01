@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom'
 // import CSS component 
 import CSS from '../css/'
 // import components
-import { Home, Nav, PrivateRoute, Login, Register, Alerts } from './'
+import { Nav, PrivateRoute, Login, Register, Alerts } from './'
 
 export default function App() {
   // Declare a new state variable
