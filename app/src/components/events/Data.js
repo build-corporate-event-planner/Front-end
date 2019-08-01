@@ -1,58 +1,65 @@
-import React from 'react'
-import { Route, NavLink, withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
-// import actions
-import { getData, logout } from '../../actions/';
+export const useGetDataHooks = (url, dependencies) => {
 
-class Data extends React.Component {
+  // initial State  ../../actions
+  const [isLoading, setIsLoading] = useState(false)
+  const [fetchedData, setFetchedData] = useState(null)
+  const [errMsg, setErrMsg] = useState(null)
 
-	componentDidMount() {
-    // GET the Data
-    this.props.getData()
-  }
+  useEffect(() => {
+    setIsLoading(true)
 
-  render() {
-    const { eventData, isDataLoading, errMsgData } = this.props
-
-    if (isDataLoading) {
-      // indicate component is fetching data
-      return <div>Loading ... </div>;
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
     }
 
-    if (errMsgData) {
-      // This happens if an Error message is returned from getData
-      console.log("Error")
-      //this.checkForError(errMsgData)
-      return (
-        <div className="alert alert-danger" role="alert">
-          <p>Error Happened ... </p>
-          <p>{errMsgData.message} </p>
-          <button type="button" onClick={this.props.getData}>Reload Page</button>
-            {/* If Error is Status 401, offer Logout Button. */}
-            {(errMsgData.message.includes("status code 401"))
-              ? <button type="button" onClick={this.props.callLogout}>Logout</button>
-              : ''}
-        </div>
-      )
-    }
+    axios.get(`${url}/events/all`, { headers })
+    .then((res) => {
+      setIsLoading(false)
+      setErrMsg(null)
+      setFetchedData(res.data)
+      console.log(fetchedData)
+    })
+    .catch((err) => {
+      setIsLoading(false)
+      setErrMsg(err)
+      console.log(errMsg)
+    })
+  }, [] )
 
-    return (
-      <div className="data">
-        {errMsgData && <p className="error">{errMsgData}</p>}
-       
-      </div>
-    )
-  }
+  return [isLoading, errMsg, fetchedData]
 }
 
-const mapStateToProps = (state) => ({
-  eventData: state.dataReducer.data,
-	isDataLoading: state.dataReducer.isLoading,
-	errMsgData: state.dataReducer.errMsg,
-})
+export const useAddData = (url, dependencies) => {
 
-const mapDispatchToProps = { getData, logout };
+  // initial State  
+  const [isLoading, setIsLoading] = useState(false)
+  const [fetchedData, setFetchedData] = useState(null)
+  const [errMsg, setErrMsg] = useState(null)
 
-export default withRouter(
-	connect( mapStateToProps, mapDispatchToProps )(Data))
+  useEffect(() => {
+    setIsLoading(true)
+
+    // const headers = {
+    //   Authorization: `Bearer ${localStorage.getItem('token')}`
+    // }
+
+    // axios.get(`${url}/events/all`, { headers })
+    // .then((res) => {
+    //   setIsLoading(false)
+    //   setErrMsg(null)
+    //   setFetchedData(res.data)
+    //   console.log(fetchedData)
+    // })
+    // .catch((err) => {
+    //   setIsLoading(false)
+    //   setErrMsg(err)
+    //   console.log(errMsg)
+    // })
+    setIsLoading(false)
+  }, [] )
+
+  return [isLoading, errMsg, fetchedData]
+}

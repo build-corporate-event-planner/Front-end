@@ -8,13 +8,12 @@ import Register from './Login/Register'
 import PrivateRoute from './Login/PrivateRoute'
 
 // Data Components
-import Data from './events/Data'
 import Events from './events/Events'
 import Event from './events/Event'
 import EventByID from './events/EventByID'
-import AddEvent from './events/AddEvent'
+import New from './events/New'
 
 // Tools
 import Alerts from './utils/Alerts'
 
-export { Home, Nav, Login, Register, PrivateRoute, Alerts, Data, Events, Event, EventByID, AddEvent };
+export { Home, Nav, Login, Register, PrivateRoute, Alerts, Events, Event, EventByID, New };

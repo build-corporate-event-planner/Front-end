@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Task from './Task'
 import User from './User'
 // import actions for Hooks
-import { GetDataHooks } from './http'
+import { useGetDataHooks } from './Data'
 
 // import some Base Input
 import { baseInput } from '../../baseInput'
@@ -24,11 +24,35 @@ function EventByID(props) {
 
   const id = props.match.params.id;
 
-  const [isLoading, errMsg, fetchedData] = GetDataHooks(baseUrl, [])
+  const [isLoading, errMsg, fetchedData] = useGetDataHooks(baseUrl, [])
+
+  const callLogout = () => {
+    localStorage.removeItem('token')
+    redirect()
+  }
+
+  const redirect = () => {
+    return <Redirect to='/login' />
+  }
 
 	if (isLoading) {
     // fetching data
 		return <div>Loading ... </div>;
+  }
+
+  if (errMsg) {
+    // This happens if an Error message is returned from GetData
+    console.log(errMsg)
+    return (
+      <div className="alert alert-danger" role="alert">
+        <p>Error Happened ... </p>
+        <p>{errMsg.message} </p>
+          {/* If Error is Status 401, offer Logout Button. */}
+          {(errMsg.message.includes("status code 401"))
+            ? <button type="button" onClick={callLogout}>Logout</button>
+            : ''}
+      </div>
+    )
   }
   
   if (fetchedData) {
@@ -37,6 +61,8 @@ function EventByID(props) {
     return (
       <div className="card">
         <h3>{event.name}</h3>
+
+        <div className='edit'><Link to={`/edit/${event.eventid}`}>Edit</Link></div>
 
         <div className='date'>{event.date}</div>
 
@@ -58,8 +84,8 @@ function EventByID(props) {
         <div className='tasklist'>
           <h5>Tasklist</h5>
             {(event.tasklist) 
-            ? event.tasklist.map((x) => {
-              return ( <Task key={x.taskid} task={x} /> )})
+            ? event.tasklist.map((x, i) => {
+              return ( <Task key={i} task={x} /> )})
             : 'No Tasks'
             }
         </div>
@@ -67,8 +93,8 @@ function EventByID(props) {
         <div className='userList'>
           <h5>User List</h5>
             {(event.userList) 
-            ? event.userList.map((x) => {
-              return ( <User key={x} user={x} /> )})
+            ? event.userList.map((x, i) => {
+              return ( <User key={i} user={x} /> )})
             : 'No User List'
             }
         </div>

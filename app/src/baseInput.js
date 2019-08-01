@@ -1,7 +1,7 @@
 export const baseInput = {
   baseUrl: `https://corporate-event-planner.herokuapp.com`,
   // Models
-  Models: {
+  models: {
     // User
     user: {
       "userid": 0,
@@ -56,7 +56,7 @@ export const baseInput = {
     }
   },
   // Endpoints
-  UserEndpoints: {
+  userEndpoints: {
     // Signup
     Signup: {
       Endpoint: '/signup',
