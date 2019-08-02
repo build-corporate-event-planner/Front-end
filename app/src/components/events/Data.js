@@ -106,14 +106,12 @@ export const useUpdateData = (url, id, body, dependencies) => {
 export const useDeleteData = (url, eventid, dependencies) => {
 
   // initial State  ../../actions
+  const [eventDeleted, setEventDeleted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [fetchedData, setFetchedData] = useState(null)
   const [errMsg, setErrMsg] = useState(null)
 
   useEffect(() => {
     setIsLoading(true)
-
-    if
 
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -122,16 +120,19 @@ export const useDeleteData = (url, eventid, dependencies) => {
     axios.get(`${url}/events/delete/${eventid}`, { headers })
     .then((res) => {
       setIsLoading(false)
+      setEventDeleted(true)
       setErrMsg(null)
       // setFetchedData(res.data)
+      console.log('Event Deleted')
       console.log(res)
     })
     .catch((err) => {
       setIsLoading(false)
+      setEventDeleted(false)
       setErrMsg(err)
     })
-  }, [] )
+  }, dependencies )
 
 
-  return [isLoading, errMsg, fetchedData]
+  return [isLoading, errMsg, eventDeleted]
 }

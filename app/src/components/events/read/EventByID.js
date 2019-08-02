@@ -58,19 +58,19 @@ function EventByID(props) {
       </div>
     )
   }
-
-	if (updateEvent) {
-    // fetching data
-		return <Update event={fetchedData} /> ;
-  }
-
-	if (deleteEvent) {
-    // fetching data
-		return <Delete event={fetchedData} /> ;
-  }
   
   if (fetchedData) {
     const event = fetchedData.find(i => String(i.eventid) === id)
+
+    if (updateEvent) {
+      // fetching data
+      return <Update event={event} /> ;
+    }
+  
+    if (deleteEvent) {
+      // fetching data
+      return <Delete event={event} /> ;
+    }
     
     return (
       <div className="card">
