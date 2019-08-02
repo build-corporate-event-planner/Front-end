@@ -117,6 +117,7 @@ export const useDeleteData = (url, eventid, dependencies) => {
       Authorization: `Bearer ${localStorage.getItem('token')}`
     }
 
+    console.log(`${url}/events/delete/${eventid}`)
     axios.get(`${url}/events/delete/${eventid}`, { headers })
     .then((res) => {
       setIsLoading(false)
@@ -127,6 +128,7 @@ export const useDeleteData = (url, eventid, dependencies) => {
       console.log(res)
     })
     .catch((err) => {
+      JSON.stringify(err)
       setIsLoading(false)
       setEventDeleted(false)
       setErrMsg(err)
