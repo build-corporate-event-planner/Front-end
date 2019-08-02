@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Alert, Button, Form, InputGroup, InputGroupText, InputGroupAddon, Input } from "reactstrap";
-
-// import actions for Hooks
-import { useCreateData, useHandleError } from '../Data'
+import UpdateAction from './UpdateAction'
 
 // import some Base Input
 import { baseInput, handleError } from '../../../baseInput'
@@ -23,16 +21,12 @@ function Update(props) {
   const [isLoading, setIsLoading] = useState(false)
   const [sendUpdate, setSendUpdate] = useState(false)
 
-  // const [isLoading, errMsg, fetchedData] = useUpdateData(sendUpdate, [])
-
   const handleChange = e => {
     setEvent({
         ...event,
         [e.target.name]: e.target.value
     });
   }
-
-  console.log(props.event)
 
   useEffect(() => {
     setEvent(props.event);
@@ -42,15 +36,16 @@ function Update(props) {
     e.preventDefault();
 
     // invoke form submit
-    console.log('Handle Submit')
     setIsLoading(true)
+    setSendUpdate(true)
+    return <UpdateAction event={event} />
   };
 
   const { eventid, name, date, description, budget, companyname } = event
 
-	if (isLoading) {
-    // fetching data
-		// return <div><Create event={event} /></div>;
+	if (sendUpdate) {
+    // update data
+		return <UpdateAction event={event} />
   }
 
   return (

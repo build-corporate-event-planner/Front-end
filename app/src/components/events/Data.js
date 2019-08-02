@@ -75,7 +75,7 @@ export const useUpdateData = (url, id, body, dependencies) => {
 
   // initial State  ../../actions
   const [isLoading, setIsLoading] = useState(false)
-  const [fetchedData, setFetchedData] = useState(null)
+  const [eventUpdated, setEventUpdated] = useState(false)
   const [errMsg, setErrMsg] = useState(null)
 
   useEffect(() => {
@@ -84,22 +84,24 @@ export const useUpdateData = (url, id, body, dependencies) => {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('token')}`
     }
+    console.log(body)
 
-    axios.put(`${url}/events/edit/${id}`, body, { headers })
+    axios.put(`${url}/events/edit/${id}`, {body}, { headers })
     .then((res) => {
       setIsLoading(false)
+      setEventUpdated(true)
       setErrMsg(null)
       console.log(res)
-      setFetchedData(res)
     })
     .catch((err) => {
+      setEventUpdated(false)
       setIsLoading(false)
       setErrMsg(err)
     })
   }, dependencies )
 
 
-  return [isLoading, errMsg, fetchedData]
+  return [isLoading, errMsg, eventUpdated]
 }
 
 // Delete - will only delete an event if it belongs to active user
