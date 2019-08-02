@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 // CRUD -- create, read, update and delete
@@ -112,6 +112,8 @@ export const useDeleteData = (url, eventid, dependencies) => {
 
   useEffect(() => {
     setIsLoading(true)
+
+    if
 
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('token')}`

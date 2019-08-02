@@ -21,6 +21,9 @@ function Update(props) {
     userList: [ ] // list of objects each with a user object nested inside at key "user"
   })
   const [isLoading, setIsLoading] = useState(false)
+  const [sendUpdate, setSendUpdate] = useState(false)
+
+  // const [isLoading, errMsg, fetchedData] = useUpdateData(sendUpdate, [])
 
   const handleChange = e => {
     setEvent({
