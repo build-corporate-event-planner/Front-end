@@ -119,7 +119,7 @@ export const useDeleteData = (url, eventid, dependencies) => {
       Authorization: `Bearer ${localStorage.getItem('token')}`
     }
 
-    console.log(`${url}/events/delete/${eventid}`)
+    // Still getting 404 Error
     axios.get(`${url}/events/delete/${eventid}`, { headers })
     .then((res) => {
       setIsLoading(false)
