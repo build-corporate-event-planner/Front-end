@@ -32,5 +32,5 @@ import Delete from './events/delete/Delete'
 export { Home, Nav, 
   Login, Register, PrivateRoute, 
   Events, EventByID, 
-  New, Create, 
+  New, Create, Update, Delete, 
   Task, Purchase, User };

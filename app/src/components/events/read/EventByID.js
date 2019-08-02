@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom';
-import { Task, User } from '../..'
+import { Task, User, Update, Delete } from '../..'
 // import actions for Hooks
 import { useReadData } from '../Data'
 
@@ -20,20 +20,25 @@ function EventByID(props) {
     tasklist: [ ], // tasks are objects
     userList: [ ] // list of objects each with a user object nested inside at key "user"
   })
+  const [updateEvent, setUpdateEvent] = useState(false)
+  const [deleteEvent, setDeleteEvent] = useState(false)
 
   const id = props.match.params.id;
 
   const [isLoading, errMsg, fetchedData] = useReadData(baseUrl, [])
 
-  const callLogout = () => {
+  const handleLogout = () => {
     localStorage.removeItem('token')
-    redirect()
-  }
-
-  const redirect = () => {
     return <Redirect to='/login' />
   }
 
+  const handleChange = e => {
+    setEvent({
+        ...eventByID,
+        [e.target.name]: e.target.value
+    });
+  }
+  
 	if (isLoading) {
     // fetching data
 		return <div>Loading ... </div>;
@@ -48,10 +53,20 @@ function EventByID(props) {
         <p>{errMsg.message} </p>
           {/* If Error is Status 401, offer Logout Button. */}
           {(errMsg.message.includes("status code 401"))
-            ? <button type="button" onClick={callLogout}>Logout</button>
+            ? <button type="button" onClick={handleLogout}>Logout</button>
             : ''}
       </div>
     )
+  }
+
+	if (updateEvent) {
+    // fetching data
+		return <Update event={fetchedData} /> ;
+  }
+
+	if (deleteEvent) {
+    // fetching data
+		return <Delete event={fetchedData} /> ;
   }
   
   if (fetchedData) {
@@ -61,8 +76,8 @@ function EventByID(props) {
       <div className="card">
         <h3>{event.name}</h3>
 
-        <div className='edit'><Link to={`/edit/${event.eventid}`}>Edit</Link></div>
-        <div className='delete'><Link to={`/delete/${event.eventid}`}>Delete</Link></div>
+        <div className='edit'><button type="button" onClick={() => {setUpdateEvent(true)}}>Edit</button></div>
+        <div className='delete'><button type="button" onClick={() => {setDeleteEvent(true)}}>Delete</button></div> 
 
         <div className='date'>{event.date}</div>
 

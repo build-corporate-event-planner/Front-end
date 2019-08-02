@@ -16,6 +16,7 @@ class Nav extends React.Component {
   handleLogout = async event => {
     localStorage.removeItem('token') 
     this.setState({ goToHome: true })
+    return <Redirect to='/login' />
   }
 
   render() {
