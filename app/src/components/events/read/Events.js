@@ -41,8 +41,9 @@ class Events extends React.Component {
 			<div className="cards">
 				<h2>Events</h2>
 				{eventData.map((event) => (
-					<Link key={event.eventid} to={`/events/${event.eventid}`} className="card">
-						<p>{event.name}</p>
+          <Link className="bootlink" key={event.eventid} 
+          to={`/events/${event.eventid}`} >
+						<div>{event.name}</div>
 					</Link>
 				))}
 			</div>

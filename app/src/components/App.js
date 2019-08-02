@@ -13,7 +13,7 @@ export default function App() {
   useEffect(() => { setErrMsg(null) }, [])
 
   return (
-      <div className="App  bg-dark">
+      <div className="App">
         <CSS />
 
         {errMsg && <Alert content={errMsg} style="warning" />}

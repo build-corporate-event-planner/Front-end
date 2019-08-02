@@ -5,6 +5,14 @@ nav {
 
 nav a {
   margin: 10px;
+  text-decoration: none;
+  color: white;
+}
+
+nav a:hover {
+  margin: 10px;
+  color: white;
+  text-decoration: double underline;
 }
   
 button {

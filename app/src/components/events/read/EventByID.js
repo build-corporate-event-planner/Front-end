@@ -23,8 +23,13 @@ function EventByID(props) {
   })
   const [updateEvent, setUpdateEvent] = useState(false)
   const [deleteEvent, setDeleteEvent] = useState(false)
+  const [displayTaskList, setdisplayTaskList] = useState('hidden')
+  const [displayUserList, setdisplayUserList] = useState('hidden')
 
   const id = props.match.params.id;
+
+  const toggleTask = () => { (displayTaskList == 'hidden') ? setdisplayTaskList('') : setdisplayTaskList('hidden') }
+  const toggleUser = () =>  { (displayUserList == 'hidden') ? setdisplayUserList('') : setdisplayUserList('hidden') }
 
   const [isLoading, errMsg, fetchedData] = useReadData(baseUrl, [])
 
@@ -75,12 +80,12 @@ function EventByID(props) {
     
     return (
       <div className="card">
-        <h3>{event.name}</h3>
+        <header>{event.name}</header>
 
         <div className='buttons'>
           {/* <Badge href="#" color="dark" onClick={() => {setUpdateEvent(true)}}>Edit</Badge> */}
-          <Button color="dark" outline onClick={() => {setUpdateEvent(true)}}>Edit</Button>
-          <Button color="dark" outline onClick={() => {setDeleteEvent(true)}}>Delete</Button>
+          <Button color="dark" size="sm" onClick={() => {setUpdateEvent(true)}}>Edit</Button>
+          <Button color="dark" size="sm" onClick={() => {setDeleteEvent(true)}}>Delete</Button>
         </div>
         
 
@@ -102,21 +107,25 @@ function EventByID(props) {
         </div>
 
         <div className='tasklist'>
-          <h5>Tasklist</h5>
-            {(event.tasklist) 
-            ? event.tasklist.map((x, i) => {
-              return ( <Task key={i} task={x} /> )})
-            : 'No Tasks'
-            }
+          <h5 onClick={toggleTask} >Tasklist</h5>
+            <div id='tasklistbox' className={displayTaskList}>
+              {(event.tasklist) 
+              ? event.tasklist.map((x, i) => {
+                return ( <Task key={i} task={x} /> )})
+              : 'No Tasks'
+              }
+            </div>
         </div>
 
         <div className='userList'>
-          <h5>User List</h5>
-            {(event.userList) 
-            ? event.userList.map((x, i) => {
-              return ( <User key={i} user={x} /> )})
-            : 'No User List'
-            }
+          <h5 onClick={toggleUser} >User List</h5>
+            <div id='userlistbox' className={displayUserList}>
+              {(event.userList) 
+              ? event.userList.map((x, i) => {
+                return ( <User key={i} user={x} /> )})
+              : 'No User List'
+              }
+            </div>
         </div>
 
       </div>
