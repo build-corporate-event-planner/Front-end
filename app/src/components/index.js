@@ -7,13 +7,30 @@ import Login from './Login/Login'
 import Register from './Login/Register'
 import PrivateRoute from './Login/PrivateRoute'
 
-// Data Components
-import Events from './events/Events'
-import Event from './events/Event'
-import EventByID from './events/EventByID'
-import New from './events/New'
+// Create
+import Create from './events/create/Create'
+import New from './events/create/New'
+
+// Read - Data Components
+import Events from './events/read/Events'
+import EventByID from './events/read/EventByID'
+
+  // Sub Components
+  import Task from './events/read/Task'
+  import Purchase from './events/read/Purchase'
+  import User from './events/read/User'
+
+// Update
+import Update from './events/update/Update'
+
+// Delete
+import Delete from './events/delete/Delete'
 
 // Tools
-import Alerts from './utils/Alerts'
+// import Alerts from './utils/Alerts'
 
-export { Home, Nav, Login, Register, PrivateRoute, Alerts, Events, Event, EventByID, New };
+export { Home, Nav, 
+  Login, Register, PrivateRoute, 
+  Events, EventByID, 
+  New, Create, 
+  Task, Purchase, User };

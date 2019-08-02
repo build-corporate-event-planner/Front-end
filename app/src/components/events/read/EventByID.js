@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom';
-import Task from './Task'
-import User from './User'
+import { Task, User } from '../..'
 // import actions for Hooks
-import { useGetDataHooks } from './Data'
+import { useReadData } from '../Data'
 
 // import some Base Input
-import { baseInput } from '../../baseInput'
+import { baseInput } from '../../../baseInput'
 const baseUrl = baseInput.baseUrl
 
 function EventByID(props) {
@@ -24,7 +23,7 @@ function EventByID(props) {
 
   const id = props.match.params.id;
 
-  const [isLoading, errMsg, fetchedData] = useGetDataHooks(baseUrl, [])
+  const [isLoading, errMsg, fetchedData] = useReadData(baseUrl, [])
 
   const callLogout = () => {
     localStorage.removeItem('token')
@@ -63,6 +62,7 @@ function EventByID(props) {
         <h3>{event.name}</h3>
 
         <div className='edit'><Link to={`/edit/${event.eventid}`}>Edit</Link></div>
+        <div className='delete'><Link to={`/delete/${event.eventid}`}>Delete</Link></div>
 
         <div className='date'>{event.date}</div>
 

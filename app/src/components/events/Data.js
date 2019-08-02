@@ -1,7 +1,43 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-export const useGetDataHooks = (url, dependencies) => {
+// CRUD -- create, read, update and delete
+
+// Create - Add an event
+export const useCreateData = (url, body, dependencies) => {
+
+  // initial State  
+  const [isLoading, setIsLoading] = useState(false)
+  const [fetchedData, setFetchedData] = useState(null)
+  const [errMsg, setErrMsg] = useState(null)
+
+  useEffect(() => {
+    setIsLoading(true)
+
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+
+    axios.post(`${url}/events/new`, body, { headers })
+    .then((res) => {
+      setIsLoading(false)
+      setErrMsg(null)
+      // setFetchedData(res.data)
+      console.log('Created')
+      console.log(res)
+    })
+    .catch((err) => {
+      setIsLoading(false)
+      setErrMsg(err)
+    })
+    setIsLoading(false)
+  }, [] )
+
+  return [isLoading, errMsg, fetchedData]
+}
+
+// Read - Get a list of all event objects
+export const useReadData = (url, dependencies) => {
 
   // initial State  ../../actions
   const [isLoading, setIsLoading] = useState(false)
@@ -20,21 +56,24 @@ export const useGetDataHooks = (url, dependencies) => {
       setIsLoading(false)
       setErrMsg(null)
       setFetchedData(res.data)
-      console.log(fetchedData)
     })
     .catch((err) => {
       setIsLoading(false)
       setErrMsg(err)
-      console.log(errMsg)
     })
   }, [] )
+
 
   return [isLoading, errMsg, fetchedData]
 }
 
-export const useAddData = (url, dependencies) => {
+// Update - Description: 'Update event with given id. 
+// Use this to access and update and sub categories like tasklist 
+// or userlist if only given one field ex. "tasklist" it will read 
+// the data from that field and try to use it to update object'
+export const useUpdateData = (url, id, body, dependencies) => {
 
-  // initial State  
+  // initial State  ../../actions
   const [isLoading, setIsLoading] = useState(false)
   const [fetchedData, setFetchedData] = useState(null)
   const [errMsg, setErrMsg] = useState(null)
@@ -42,24 +81,55 @@ export const useAddData = (url, dependencies) => {
   useEffect(() => {
     setIsLoading(true)
 
-    // const headers = {
-    //   Authorization: `Bearer ${localStorage.getItem('token')}`
-    // }
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
 
-    // axios.get(`${url}/events/all`, { headers })
-    // .then((res) => {
-    //   setIsLoading(false)
-    //   setErrMsg(null)
-    //   setFetchedData(res.data)
-    //   console.log(fetchedData)
-    // })
-    // .catch((err) => {
-    //   setIsLoading(false)
-    //   setErrMsg(err)
-    //   console.log(errMsg)
-    // })
-    setIsLoading(false)
+    axios.put(`${url}/events/edit/${id}`, body, { headers })
+    .then((res) => {
+      setIsLoading(false)
+      setErrMsg(null)
+      console.log(res)
+      setFetchedData(res)
+    })
+    .catch((err) => {
+      setIsLoading(false)
+      setErrMsg(err)
+    })
+  }, dependencies )
+
+
+  return [isLoading, errMsg, fetchedData]
+}
+
+// Delete - will only delete an event if it belongs to active user
+export const useDeleteData = (url, eventid, dependencies) => {
+
+  // initial State  ../../actions
+  const [isLoading, setIsLoading] = useState(false)
+  const [fetchedData, setFetchedData] = useState(null)
+  const [errMsg, setErrMsg] = useState(null)
+
+  useEffect(() => {
+    setIsLoading(true)
+
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+
+    axios.get(`${url}/events/delete/${eventid}`, { headers })
+    .then((res) => {
+      setIsLoading(false)
+      setErrMsg(null)
+      // setFetchedData(res.data)
+      console.log(res)
+    })
+    .catch((err) => {
+      setIsLoading(false)
+      setErrMsg(err)
+    })
   }, [] )
+
 
   return [isLoading, errMsg, fetchedData]
 }

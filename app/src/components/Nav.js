@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, NavLink, withRouter, Redirect } from 'react-router-dom'
 // import components
-import { Home, Login, Alerts, Data, Events, Event, EventByID, New } from './'
+import { Home, Events, EventByID, New } from './'
 
 class Nav extends React.Component {
 	constructor() {

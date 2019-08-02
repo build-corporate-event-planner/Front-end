@@ -3,7 +3,7 @@ import { Route, Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 // import actions
-import { getData, logout } from '../../actions/';
+import { getData, logout } from '../../../actions/';
 
 class Events extends React.Component {
 

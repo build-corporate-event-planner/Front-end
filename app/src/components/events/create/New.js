@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Alert, Button, Form, InputGroup, InputGroupText, InputGroupAddon, Input } from "reactstrap";
+import Create from './Create'
+
 // import actions for Hooks
-import { useAddData } from './Data'
+import { useCreateData, useHandleError } from '../Data'
 
 // import some Base Input
-import { baseInput } from '../../baseInput'
+import { baseInput, handleError } from '../../../baseInput'
 const baseUrl = baseInput.baseUrl
+const expectedInput = baseInput.dataEndpoints.addData.expectedInput
 
 function New(props) {
   // Set Hooks state
@@ -19,38 +22,33 @@ function New(props) {
     tasklist: [ ], // tasks are objects
     userList: [ ] // list of objects each with a user object nested inside at key "user"
   })
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleChange = e => {
-    this.setState({
-      event: {
-        ...this.state.event,
+    setEvent({
+        ...event,
         [e.target.name]: e.target.value
-      }
     });
   }
+
+  useEffect(() => {
+    setEvent(expectedInput);
+  }, [] )
   
   const handleSubmit = e => {
     e.preventDefault();
+
     // invoke form submit
     console.log('Handle Submit')
-    // this.setState({
-    //   event: {}
-    // })
+    setIsLoading(true)
   };
 
-  // import hook function to add data
-  const [isLoading, errMsg, fetchedData] = useAddData(baseUrl, [])
+  const { eventid, name, date, description, budget, companyname } = event
 
 	if (isLoading) {
     // fetching data
-		return <div>Loading ... </div>;
+		return <div><Create event={event} /></div>;
   }
-
-  if (errMsg) {
-    // This happens if an Error message is returned
-    console.log(errMsg)
-  }
-  const { name, date, description, budget, companyname } = event
 
   return (
     <div className="new">
@@ -107,6 +105,7 @@ function New(props) {
         
         <Button type="submit" disabled={isLoading} block={true}>Add Event</Button>
       </form>
+
     </div>
   )
 }

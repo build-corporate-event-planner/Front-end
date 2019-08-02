@@ -1,3 +1,5 @@
+import React from 'react'
+
 export const baseInput = {
   baseUrl: `https://corporate-event-planner.herokuapp.com`,
   // Models
@@ -58,11 +60,11 @@ export const baseInput = {
   // Endpoints
   userEndpoints: {
     // Signup
-    Signup: {
-      Endpoint: '/signup',
-      Type: 'POST',
-      Description: 'Sign up a new user',
-      ExpectedInput: {
+    signup: {
+      endpoint: '/signup',
+      type: 'POST',
+      description: 'Sign up a new user',
+      expectedInput: {
         // username and email must be unique
         "username": "testuser",
         "email": "JohnnyGuitar@Email.com",
@@ -72,11 +74,11 @@ export const baseInput = {
       }
     },
     // Login
-    Login: {
-      Endpoint: '/oauth/token',
-      Type: 'POST',
-      Description: 'Gets authentication token for user with given credentials',
-      ExpectedInput: {
+    login: {
+      endpoint: '/oauth/token',
+      type: 'POST',
+      description: 'Gets authentication token for user with given credentials',
+      expectedInput: {
         "username": "SomeUser",
         "password": "TheirPassword"
       },
@@ -92,17 +94,17 @@ export const baseInput = {
       }
     },
     // Logout
-    Logout: {
-      Endpoint: '/oauth/revoke-token',
-      Type: 'GET',
-      Description: 'Back end will kill any active tokens for user'
+    logout: {
+      endpoint: '/oauth/revoke-token',
+      type: 'GET',
+      description: 'Back end will kill any active tokens for user'
     },
     // Update-User
-    UpdateUser: {
-      Endpoint: '/user/{id}',
-      Type: 'PUT',
-      Description: 'Update user with given id',
-      ExpectedInput: {
+    updateUser: {
+      endpoint: '/user/{id}',
+      type: 'PUT',
+      description: 'Update user with given id',
+      expectedInput: {
         "username": "testuser",
         "email": "JohnnyGuitar@Email.com",
         "password": "password",
@@ -111,34 +113,34 @@ export const baseInput = {
       }
     },
     // Delete-User
-    DeleteUser: {
-      Endpoint: '/user/{id}',
-      Type: 'DELETE',
-      Description: 'Delete user with given id',
+    deleteUser: {
+      endpoint: '/user/{id}',
+      type: 'DELETE',
+      description: 'Delete user with given id',
     }
   }, 
-  DataEndpoints: {
+  dataEndpoints: {
     // Get All Events
-    GetAll: {
-      Endpoint: '/events/all',
-      Type: 'GET',
-      Description: 'Get a list of all event objects'
+    getAll: {
+      endpoint: '/events/all',
+      type: 'GET',
+      description: 'Get a list of all event objects'
     },
     // Get Event
-    GetByID: { // will only fetch and event if it belongs to active user
-      Endpoint: '/events/{id}',
-      Type: 'PUT',
-      Description: 'Update user with given id'
+    getByID: { // will only fetch and event if it belongs to active user
+      endpoint: '/events/{id}',
+      type: 'PUT',
+      description: 'Update user with given id'
     },
     // Add Event
-    AddData: { // keeps giving weird auth errors
-      Endpoint: '/events/new',
-      Type: 'POST',
-      Description: 'Update user with given id',
-      ExpectedInput: {
+    addData: { // keeps giving weird auth errors
+      endpoint: '/events/new',
+      type: 'POST',
+      description: 'Update user with given id',
+      expectedInput: {
         "name": "Big ole Fun Time",
         "description": "We're gonna have a big ole funt ime",
-        "date": "8-23-2019",
+        "date": "8/23/2019",
         "budget": "$10,000",
         "companyname": "Company A",
         "tasklist": [
@@ -171,15 +173,15 @@ export const baseInput = {
           }
         ],
         // This should be empty, currently logged in user will be set added to list
-        "userList": []
+        // "userList": []
       }
     },
     // Update Event
-    UpdateData: {
-      Endpoint: '/events/edit/{id}',
-      Type: 'PUT',
-      Description: 'Update event with given id. Use this to access and update and sub categories like tasklist or userlist if only given one field ex. "tasklist" it will read the data from that field and try to use it to update object',
-      ExpectedInput: {
+    updateData: {
+      endpoint: '/events/edit/{id}',
+      type: 'PUT',
+      description: 'Update event with given id. Use this to access and update and sub categories like tasklist or userlist if only given one field ex. "tasklist" it will read the data from that field and try to use it to update object',
+      expectedInput: {
         "name": "Big ole Fun Time",
         "description": "We're gonna have a big ole funt ime",
         "date": "8-23-2019",
@@ -223,10 +225,41 @@ export const baseInput = {
       }
     },
     // Delete Event
-    DeleteData: { // will only delete an event if it belongs to active user
-      Endpoint: '/events/delete/{eventid}',
-      Type: 'DELETE',
-      Description: 'Deletes event with given ID'
+    deleteData: { // will only delete an event if it belongs to active user
+      endpoint: '/events/delete/{eventid}',
+      type: 'DELETE',
+      description: 'Deletes event with given ID'
     }
   }
 }
+
+// Handle Error
+export const handleError = (error) => {
+  if(error) {
+    const errorMessage = ['Error occured: ']
+    if (error.status) {
+      errorMessage.push(`Status: ${error.status} ${error.statusText}`)
+    }
+    if (error.message) {
+      errorMessage.push(`Message: ${error.message}`)
+    }
+    if (error.data) {
+      if (error.data.error) {
+        errorMessage.push(`Error: ${error.data.error}`)
+      }
+      if (error.data.error_description) {
+        errorMessage.push(`Description: ${error.data.error_description}`)
+      }
+    }
+    if (error.config) {
+      if (error.config.url) {
+        errorMessage.push(`URL: ${error.config.url}`)
+      }
+      // if (error.config.data) {
+      //   errorMessage.push(`with ${error.config.data}`)
+      // }
+    }
+    
+    return ( errorMessage );       
+  }
+} 
