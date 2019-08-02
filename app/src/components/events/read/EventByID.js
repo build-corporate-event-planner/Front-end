@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom';
+import { Alert, Button, Badge, Form, InputGroup, InputGroupText, InputGroupAddon, Input } from "reactstrap"
 import { Task, User, Update, Delete } from '../..'
 // import actions for Hooks
 import { useReadData } from '../Data'
@@ -76,8 +77,12 @@ function EventByID(props) {
       <div className="card">
         <h3>{event.name}</h3>
 
-        <div className='edit'><button type="button" onClick={() => {setUpdateEvent(true)}}>Edit</button></div>
-        <div className='delete'><button type="button" onClick={() => {setDeleteEvent(true)}}>Delete</button></div> 
+        <div className='buttons'>
+          {/* <Badge href="#" color="dark" onClick={() => {setUpdateEvent(true)}}>Edit</Badge> */}
+          <Button color="dark" outline onClick={() => {setUpdateEvent(true)}}>Edit</Button>
+          <Button color="dark" outline onClick={() => {setDeleteEvent(true)}}>Delete</Button>
+        </div>
+        
 
         <div className='date'>{event.date}</div>
 
