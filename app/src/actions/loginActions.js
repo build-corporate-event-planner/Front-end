@@ -29,7 +29,7 @@ export function login(username, password) {
 				dispatch({ type: LOGIN_SUCCESS })
 			})
 			.catch((err) => {
-				const payload = err.response ? err.response.data : err
+				const payload = err.response ? err.response : err
 				dispatch({ type: LOGIN_FAILED, payload })
 			})
 	}

@@ -1,96 +1,48 @@
 import React from 'react'
-import { Route, NavLink, withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-
+import { Route, NavLink, withRouter, Redirect } from 'react-router-dom'
 // import components
-import { Home, Login, Alerts, Events } from './'
-
-// import actions
-import { getData, logout } from '../actions/';
+import { Home, Events, EventByID, New } from './'
 
 class Nav extends React.Component {
 	constructor() {
 		super()
 		this.state = {
-			errMsg: ''
+      errMsg: '', 
+      shouldLogout: false, 
+      goToHome: false
 		}
 	}
 
-	componentDidMount() {
-    console.log('Component DID MOUNT!')
-    // call our action
-    this.props.getData()
-
-  }
-  shouldComponentUpdate(newProps, newState) {
-     return true;
-  }
-  componentDidUpdate(prevProps, prevState) {
-     console.log('Component DID UPDATE!')
-  }
-  componentWillUnmount() {
-     console.log('Component WILL UNMOUNT!')
-  }
-
-  logout = () => {
-    localStorage.removeItem('token')
-    this.props.history.push('/login')
-  }
-
-  checkForError = (error) =>  {
-    console.log(error.message)
-    if (error.message.includes("status code 401")) {
-      this.logout()
-    }
+  handleLogout = async event => {
+    localStorage.removeItem('token') 
+    this.setState({ goToHome: true })
+    return <Redirect to='/login' />
   }
 
   render() {
-    const { events } = this.props
-    const errMsg = this.state.errMsg
-    const errMsgData = this.props.errMsgData
 
-    if (errMsgData) {
-      // This happens if an Error message is returned from getData
-      this.checkForError(errMsgData)
-      return <div>
-        <p>Error Happened ... </p>
-        <p>{errMsgData.message} </p>
-        </div>;
-    }
-    if (this.props.isLoading) {
-      // indicate component is fetching data
-      return <div>Loading ... </div>;
-    }
+    if (this.state.goToHome) {
+      return ( <div> Please Refresh your Page. </div>)
+     }
+
     return (
       <div className="main">
         <header>
           <nav>
             <NavLink to="/">Home</NavLink>
             <NavLink to="/events">Events</NavLink>
-            <NavLink to="/new-event">New Event</NavLink>
-            <button type="button" onClick={this.logout}>Logout</button>
+            <NavLink to="/new">New Event</NavLink>
+            <button type="button" onClick={this.handleLogout}>Logout</button>
           </nav>
         </header>
-
-        {errMsg && <p className="error">{errMsg}</p>}
         
         <Route exact path="/" component={Home} />
-        <Route exact path="/events" exact render={props => <Events {...props} events={events} />} />
-        <Route exact path="/new-event" component={Home} />
+        <Route exact path="/events" exact render={props => <Events {...props} callLogout={this.callLogout} />} />
+        <Route exact path="/events/:id" render={props => <EventByID {...props} />} />
+        <Route exact path="/new"  render={props => <New {...props} />} />
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => ({
-  events: state.dataReducer.data,
-  // eventByID: state.dataReducer.dataByID,
-	isDataLoading: state.dataReducer.isLoading,
-	errMsgData: state.dataReducer.errMsg,
-})
-
-const mapDispatchToProps = { getData, logout };
-
-export default React.memo(withRouter(
-	connect( mapStateToProps, mapDispatchToProps )(Nav))
-)
+export default withRouter((Nav))

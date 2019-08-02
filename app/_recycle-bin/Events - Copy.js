@@ -9,10 +9,10 @@ export default function(props) {
 	}
 
 	return (
-		<div className="friendslist">
-            <h2>Friends List</h2>
+		<div className="cards">
+            <h2>Events</h2>
 			{props.events.map((event) => (
-				<Link to={`/friends/${event.id}`} className="event-card" key={event.id}>
+				<Link key={event.eventid} to={`/events/${event.eventid}`} className="card">
 					<p>{event.name}</p>
 				</Link>
 			))}

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Route } from 'react-router-dom'
+import { Alert } from "reactstrap";
 // import CSS component 
 import CSS from '../css/'
 // import components
-import { Home, Nav, PrivateRoute, Login, Register, Alerts } from './'
+import { Nav, PrivateRoute, Login, Register } from './'
 
 export default function App() {
   // Declare a new state variable
@@ -15,7 +16,7 @@ export default function App() {
       <div className="App">
         <CSS />
 
-        {errMsg && <Alerts content={errMsg} style="warning" />}
+        {errMsg && <Alert content={errMsg} style="warning" />}
 
         <PrivateRoute path="/" component={Nav} />
         <Route exact path="/login" component={Login} />

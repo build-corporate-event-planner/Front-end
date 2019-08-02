@@ -9,12 +9,12 @@ class Register extends React.Component {
     super()
     this.state = {
       user: {
-        username: '',
-        password: '',
-        checkPassword: '',
-        email: '', 
-        role: '', 
-        companyname: ''
+        username: 'LambdaTestUser',
+        password: 'pass',
+        checkPassword: 'pass',
+        email: 'LambdaTestUser@email.com', 
+        role: 'Lambda Student', 
+        companyname: 'Lambda'
       }, 
       checkPassword: '',
       checkToken: '',
@@ -62,24 +62,28 @@ class Register extends React.Component {
       console.log(user)
       const response = this.props.register(user)
 
-      if (this.props.isSuccess) {
-        this.props.history.push("/login")
-      }
     //}
-	}
+  }
+  
+  callLogin = (evt) => {
+    this.props.history.push("/login")
+  }
 
 	render() {
     const { username, email, password, checkPassword, role, companyname } = this.state.user
     const { errMessage } = this.state
-    const { isLoading, errMsg, errMsgLogin } = this.props
+    const { isLoading, errMsg, isSuccess } = this.props
+
+    // if successful then redirect ...
+		if (isSuccess) { this.props.history.push("/") }
     
     return (
       <div className="register">
         <h1>Register</h1>
         
         { errMessage && <div className="alert alert-danger" role="alert"> {errMessage} </div> }
-        { errMsg && <div className="alert alert-danger" role="alert"> {errMsg} </div> }
-        { errMsgLogin && <div className="alert alert-warning" role="alert"> {errMsgLogin} </div> }
+        { errMsg && <div className="alert alert-danger" role="alert"> {errMsg} 
+          <button type="button" onClick={this.callLogin}>Login</button></div> }
 
         <Form id="register" onSubmit={this.handleSubmit} >
           {/* UserName */}
@@ -158,10 +162,7 @@ class Register extends React.Component {
 const mapStateToProps = (state) => ({
   isLoading: state.registerReducer.isLoading,
   isSuccess: state.registerReducer.isSuccess,
-	errMsg: state.registerReducer.errMsg,
-  isLoginLoading: state.loginReducer.isLoading,
-  isLoginSuccess: state.loginReducer.isSuccess,
-	errMsgLogin: state.loginReducer.errMsg,
+	errMsg: state.registerReducer.errMsg
 })
 
 const mapDispatchToProps = { register }

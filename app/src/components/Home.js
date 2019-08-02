@@ -1,16 +1,16 @@
 import React from 'react'
-import { Route, NavLink, withRouter } from 'react-router-dom'
-// import components
-import { Login, Alerts } from './'
+import { Jumbotron, Container } from 'reactstrap';
 
-function Home() {
+export default function Home() {
   return (
-    <div className="home">
-      <h1>Home Page</h1>
-      <p>After a user logs</p>
-
+    <div className='home'>
+      <Jumbotron fluid>
+        <Container fluid>
+          <h1 className="display-3">MOGUL FESTZ</h1>
+          <p className="lead">This is the event planner home page.</p>
+          <p>Select <a href='./events'>Events</a> to get started.</p>
+        </Container>
+      </Jumbotron>
     </div>
   )
 }
-
-export default withRouter(Home)
