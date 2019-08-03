@@ -84,9 +84,10 @@ export const useUpdateData = (url, id, body, dependencies) => {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('token')}`
     }
+    console.log("This will be sent to update id: " + id)
     console.log(body)
 
-    axios.put(`${url}/events/edit/${id}`, {body}, { headers })
+    axios.put(`${url}/events/edit/${id}`, body, { headers })
     .then((res) => {
       setIsLoading(false)
       setEventUpdated(true)
@@ -120,17 +121,13 @@ export const useDeleteData = (url, eventid, dependencies) => {
     }
 
     // Still getting 404 Error
-    axios.get(`${url}/events/delete/${eventid}`, { headers })
+    axios.delete(`${url}/events/delete/${eventid}`, { headers })
     .then((res) => {
       setIsLoading(false)
       setEventDeleted(true)
       setErrMsg(null)
-      // setFetchedData(res.data)
-      console.log('Event Deleted')
-      console.log(res)
     })
     .catch((err) => {
-      JSON.stringify(err)
       setIsLoading(false)
       setEventDeleted(false)
       setErrMsg(err)

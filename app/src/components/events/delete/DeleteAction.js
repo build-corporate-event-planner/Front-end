@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom';
+import { Spinner } from 'reactstrap';
 
 // import actions for Hooks
 import { useDeleteData } from '../Data'
@@ -18,7 +19,12 @@ export default function DeleteAction(props) {
   
 	if (isLoading) {
     // fetching data
-		return <div>Loading ... </div>;
+		return (
+      <div className='loading'>
+        <Spinner color="warning" style={{ width: '5rem', height: '5rem' }} />{' '}
+        <p>Loading ... </p>
+      </div>
+    )
   }
 
   if (errMsg) {

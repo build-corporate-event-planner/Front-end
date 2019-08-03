@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom';
+import { Spinner } from 'reactstrap';
 
 // import actions for Hooks
 import { useUpdateData } from '../Data'
@@ -8,21 +9,26 @@ import { useUpdateData } from '../Data'
 import { baseInput, handleError } from '../../../baseInput'
 const baseUrl = baseInput.baseUrl
 
-export default function DeleteAction(props) {
+export default function UpdateAction(props) {
   // Set Hooks state
   const [updateEvent, setUpdateEvent] = useState(false)
 
   const event = props.event
+  // Use action to update Event
   const [isLoading, errMsg, eventUpdated] = useUpdateData(baseUrl, event.eventid, event, [])
   
 	if (isLoading) {
     // fetching data
-		return <div>Loading ... </div>;
+		return (
+      <div className='loading'>
+        <Spinner color="warning" style={{ width: '5rem', height: '5rem' }} />{' '}
+        <p>Loading ... </p>
+      </div>
+    )
   }
 
   if (errMsg) {
     // This happens if an Error message is returned from GetData
-    console.log(errMsg)
     return (
       <div className="alert alert-danger" role="alert">
         <p>Error Happened ... </p>

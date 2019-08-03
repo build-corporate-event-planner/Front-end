@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { Alert, Button, Form, InputGroup, InputGroupText, InputGroupAddon, Input } from "reactstrap";
+import { Alert, Button, Form, Spinner } from "reactstrap";
+import { Input, InputGroup, InputGroupText, InputGroupAddon } from 'reactstrap';
 // import actions for Hooks
 import { useCreateData, useHandleError } from '../Data'
 
@@ -21,7 +22,12 @@ function Create(props) {
 
 	if (isLoading) {
     // fetching data
-		return <div>Loading ... </div>;
+		return (
+      <div className='loading'>
+        <Spinner color="warning" style={{ width: '5rem', height: '5rem' }} />{' '}
+        <p>Loading ... </p>
+      </div>
+    )
   }
 
   const handleErrorResult = handleError(errMsg)

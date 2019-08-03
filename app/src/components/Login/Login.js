@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { login } from '../../actions'
-import { Button, Form, FormGroup, Input } from "reactstrap";
+import { Button, Form, FormGroup, Input, Spinner } from "reactstrap";
 
 class Login extends React.Component {
 	constructor() {
@@ -41,6 +41,16 @@ class Login extends React.Component {
     
     // if successful then redirect ...
 		if (successfulLogin) { this.props.history.push("/") }
+
+		// if loading
+		if (isLoading) {
+			return (
+        <div className='loading'>
+          <Spinner color="warning" style={{ width: '5rem', height: '5rem' }} />{' '}
+          <p>Loading ... </p>
+        </div>
+      )
+		}
 		
     // if Error
     if (errMsgLogin) {
@@ -72,7 +82,7 @@ class Login extends React.Component {
 					{errorMessage.map((x) => ( 
 						<p>{x}</p>
 					))}
-					<button type="button" onClick={this.callLogin}>Reload</button>
+					<button type="button" onClick={() => { document.location.href ='/login' }} >Reload</button>
 				</div> ); 
 		}
 
@@ -80,8 +90,6 @@ class Login extends React.Component {
 			<div className="Login">
 			  <h1>Login</h1>
 				<div id="loginError"></div>
-		
-			  {/* {errMsgLogin && <div className="alert alert-danger" role="alert"> {errMsgLogin} </div> } */}
 		
 			  <Form onSubmit={this.handleSubmit}>
 				<FormGroup>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Link, withRouter } from 'react-router-dom'
+import { Spinner } from 'reactstrap'
 import { connect } from 'react-redux'
 
 // import actions
@@ -17,7 +18,12 @@ class Events extends React.Component {
 
     if (isDataLoading) {
       // indicate component is fetching data
-      return <div>Loading ... </div>;
+      return (
+        <div className='loading'>
+          <Spinner color="warning" style={{ width: '5rem', height: '5rem' }} />{' '}
+          <p>Loading ... </p>
+        </div>
+      )
     }
 
     if (errMsgData) {
@@ -31,7 +37,7 @@ class Events extends React.Component {
           <button type="button" onClick={this.props.getData}>Reload Page</button>
             {/* If Error is Status 401, offer Logout Button. */}
             {(errMsgData.message.includes("status code 401"))
-              ? <button type="button" onClick={this.props.callLogout}>Logout</button>
+              ? <button type="button" onClick={this.props.handleLogout}>Logout</button>
               : ''}
         </div>
       )
