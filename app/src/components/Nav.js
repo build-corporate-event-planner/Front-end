@@ -16,13 +16,15 @@ class Nav extends React.Component {
   handleLogout = async event => {
     localStorage.removeItem('token') 
     this.setState({ goToHome: true })
-    return <Redirect to='/login' />
+    document.location.href ='/login'
   }
 
   render() {
 
     if (this.state.goToHome) {
-      return ( <div> Please Refresh your Page. </div>)
+      return ( <div> You should be redirected to Login. 
+        <br />
+        Please Refresh your Page if nothing happens. </div>)
      }
 
     return (
@@ -37,7 +39,7 @@ class Nav extends React.Component {
         </header>
         
         <Route exact path="/" component={Home} />
-        <Route exact path="/events" exact render={props => <Events {...props} callLogout={this.callLogout} />} />
+        <Route exact path="/events" exact render={props => <Events {...props} callLogout={this.handleLogout} />} />
         <Route exact path="/events/:id" render={props => <EventByID {...props} />} />
         <Route exact path="/new"  render={props => <New {...props} />} />
       </div>

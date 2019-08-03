@@ -9,7 +9,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root, div, h1, h2, h3, h4, h5, h6, h7, a, p, .card, header {
+#root, div, h1, h2, h3, h4, h5, h6, h7, .card, header {
   background-color: black;
   color: white;
 }
@@ -99,6 +99,16 @@ h2 {
   margin: 0 auto;
   text-align: center;
   background-color: black;  
+}
+
+.loading {
+  text-align: center;
+  margin: 10%;
+}
+
+.loading p {
+  font-size: 3rem;
+  margin: 5%;
 }
 
 .card {

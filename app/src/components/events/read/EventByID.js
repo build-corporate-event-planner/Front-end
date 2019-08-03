@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom';
-import { Alert, Button, Badge, Form, InputGroup, InputGroupText, InputGroupAddon, Input } from "reactstrap"
+import { Alert, Button, Badge, Form, InputGroup, 
+  Spinner, InputGroupText, InputGroupAddon, Input } from "reactstrap"
 import { Task, User, Update, Delete } from '../..'
 // import actions for Hooks
 import { useReadData } from '../Data'
@@ -47,7 +48,12 @@ function EventByID(props) {
   
 	if (isLoading) {
     // fetching data
-		return <div>Loading ... </div>;
+		return (
+      <div className='loading'>
+        <Spinner color="warning" style={{ width: '5rem', height: '5rem' }} />{' '}
+        <p>Loading ... </p>
+      </div>
+    )
   }
 
   if (errMsg) {
@@ -107,7 +113,7 @@ function EventByID(props) {
         </div>
 
         <div className='tasklist'>
-          <h5 onClick={toggleTask} >Tasklist</h5>
+          <h5 onClick={toggleTask} >Task List</h5>
             <div id='tasklistbox' className={displayTaskList}>
               {(event.tasklist) 
               ? event.tasklist.map((x, i) => {

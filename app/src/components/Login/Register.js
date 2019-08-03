@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Alert, Button, Form, InputGroup, InputGroupText, InputGroupAddon, Input } from "reactstrap";
+import { Alert, Button, Form, Spinner } from 'reactstrap'
+import { Input, InputGroup, InputGroupText, InputGroupAddon } from "reactstrap";
 import { login, register } from '../../actions'
 
 class Register extends React.Component {
@@ -18,7 +19,6 @@ class Register extends React.Component {
       }, 
       checkPassword: '',
       checkToken: '',
-      isSuccess: false,
       errMessage: '',
     }
   } 
@@ -59,14 +59,13 @@ class Register extends React.Component {
     //     errMessage: 'Username, Email, and password are required.'
     //   })
     // } else {    
-      console.log(user)
       const response = this.props.register(user)
-
     //}
   }
   
   callLogin = (evt) => {
-    this.props.history.push("/login")
+    //this.props.history.push("/login")
+    document.location.href ='/login'
   }
 
 	render() {
@@ -75,7 +74,17 @@ class Register extends React.Component {
     const { isLoading, errMsg, isSuccess } = this.props
 
     // if successful then redirect ...
-		if (isSuccess) { this.props.history.push("/") }
+    if (isSuccess) { this.props.history.push("/") }
+    
+    if (isLoading) {
+      // indicate component is fetching data
+      return (
+        <div className='loading'>
+          <Spinner color="warning" style={{ width: '5rem', height: '5rem' }} />{' '}
+          <p>Loading ... </p>
+        </div>
+      )
+    }
     
     return (
       <div className="register">
