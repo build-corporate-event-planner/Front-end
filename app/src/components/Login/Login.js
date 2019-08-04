@@ -8,8 +8,8 @@ class Login extends React.Component {
 	constructor() {
 		super()
 		this.state = {
-			username: 'LambdaTestUser',
-			password: 'pass',
+			username: '',
+			password: '',
 			errorMessage: ''
 		}
 	}
@@ -26,21 +26,17 @@ class Login extends React.Component {
 		evt.preventDefault()
 		const { username, password } = this.state
 		this.props.login(username, password)
-	}
-
-	callLogin = () => {
-		// this.props.history.push('/login')
-		this.setState({
-			errorMessage: '',
-		})
-	}
+	} 
 
 	render() {
 		const { username, password, checkToken } = this.state
     const { isLoading, errMsgLogin, successfulLogin } = this.props
     
     // if successful then redirect ...
-		if (successfulLogin) { this.props.history.push("/") }
+		if (successfulLogin) { 
+			// this.props.history.push("/") 
+			document.location.href ='/'
+		}
 
 		// if loading
 		if (isLoading) {
@@ -107,10 +103,6 @@ class Login extends React.Component {
 			  </Form>
 		
 			  <Link to='/register'> Register a New User </Link>
-
-			  <p>Sample Data <br />
-			  Username: LambdaTestUser<br />
-			  Password: pass</p>
 		
 			</div>
 		)
