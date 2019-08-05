@@ -12,19 +12,15 @@ export default function User(props) {
       <p>companyname: {user.companyname}</p>
       <p>role: {user.role}</p>
       
-      <div className='userRoles'>userRoles: (array)
-        {(user.userRoles)
-          ?  user.userRoles.map((i) => (i))
-          : 'None'
-        }
-      </div>
+      {(user.userRoles.length > 0)
+        ?  <div className='userRoles'>userRoles: {user.userRoles.map((i) => (i))} </div>
+        : ''
+      }
 
-      <div className='authority'>authority: (array)
-        {(user.authority)
-          ?  user.authority.map((i) => (i))
-          : <p>None</p>
-        }
-      </div>
+      {(user.authority.length > 0)
+        ?  <div className='authority'>authority: {user.authority.map((i) => (i))} </div>
+        : ''
+      }
 
     </div>
   )

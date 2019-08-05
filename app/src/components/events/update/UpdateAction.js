@@ -33,6 +33,7 @@ export default function UpdateAction(props) {
       <div className="alert alert-danger" role="alert">
         <p>Error Happened ... </p>
         <p>{errMsg.message}</p>
+        <p><strong>Note: </strong>User can only update events that are assigned to the User.</p>
         <Link to={`/events/`}>Go back to Events</Link>
       </div>
     )
