@@ -8,7 +8,6 @@ export const useCreateData = (url, body, dependencies) => {
 
   // initial State  
   const [isLoading, setIsLoading] = useState(false)
-  const [fetchedData, setFetchedData] = useState(null)
   const [errMsg, setErrMsg] = useState(null)
 
   useEffect(() => {
@@ -22,9 +21,6 @@ export const useCreateData = (url, body, dependencies) => {
     .then((res) => {
       setIsLoading(false)
       setErrMsg(null)
-      // setFetchedData(res.data)
-      console.log('Created')
-      console.log(res)
     })
     .catch((err) => {
       setIsLoading(false)
@@ -33,7 +29,7 @@ export const useCreateData = (url, body, dependencies) => {
     setIsLoading(false)
   }, [] )
 
-  return [isLoading, errMsg, fetchedData]
+  return [isLoading, errMsg]
 }
 
 // Read - Get a list of all event objects
@@ -73,7 +69,7 @@ export const useReadData = (url, dependencies) => {
 // the data from that field and try to use it to update object'
 export const useUpdateData = (url, id, body, dependencies) => {
 
-  // initial State  ../../actions
+  // initial State
   const [isLoading, setIsLoading] = useState(false)
   const [eventUpdated, setEventUpdated] = useState(false)
   const [errMsg, setErrMsg] = useState(null)
@@ -84,15 +80,12 @@ export const useUpdateData = (url, id, body, dependencies) => {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('token')}`
     }
-    console.log("This will be sent to update id: " + id)
-    console.log(body)
 
     axios.put(`${url}/events/edit/${id}`, body, { headers })
     .then((res) => {
       setIsLoading(false)
       setEventUpdated(true)
       setErrMsg(null)
-      console.log(res)
     })
     .catch((err) => {
       setEventUpdated(false)
