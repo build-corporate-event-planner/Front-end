@@ -8,7 +8,6 @@ import { useCreateData, useHandleError } from '../Data'
 // import some Base Input
 import { baseInput, handleError } from '../../../baseInput'
 const baseUrl = baseInput.baseUrl
-const expectedInput = baseInput.dataEndpoints.addData.expectedInput
 
 function New(props) {
   // Set Hooks state
@@ -30,10 +29,6 @@ function New(props) {
         [e.target.name]: e.target.value
     });
   }
-
-  useEffect(() => {
-    setEvent(expectedInput);
-  }, [] )
   
   const handleSubmit = e => {
     e.preventDefault();
