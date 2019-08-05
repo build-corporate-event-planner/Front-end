@@ -28,7 +28,8 @@ const store = createStore(
 	reducers,
 	// compose multiple middleware flows together into one flow
 	compose(
-		applyMiddleware(thunk, logger),
+		//applyMiddleware(thunk, logger), // Taking the logger out to clean up console.log 
+		applyMiddleware(thunk),
 		// redux dev tools middleware
 		window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
 	),
