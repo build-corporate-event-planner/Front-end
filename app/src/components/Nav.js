@@ -34,7 +34,7 @@ class Nav extends React.Component {
             <NavLink to="/">Home</NavLink>
             <NavLink to="/events">Events</NavLink>
             <NavLink to="/new">New Event</NavLink>
-            <button type="button" onClick={this.handleLogout}>Logout</button>
+            <button className="btn btn-dark" type="button" onClick={this.handleLogout}>Logout</button>
           </nav>
         </header>
         
