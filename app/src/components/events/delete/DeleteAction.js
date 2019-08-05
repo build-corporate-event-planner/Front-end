@@ -14,7 +14,6 @@ export default function DeleteAction(props) {
   const [deleteEvent, setDeleteEvent] = useState(false)
 
   const eventid = props.eventid
-  console.log(eventid)
   const [isLoading, errMsg, eventDeleted] = useDeleteData(baseUrl, eventid, [])
   
 	if (isLoading) {

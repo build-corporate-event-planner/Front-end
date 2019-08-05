@@ -8,12 +8,9 @@ export default function Delete(props) {
   const [DonotDeleteEvent, setDonotDeleteEvent] = useState(false)
 
   const eventid = props.event.eventid
-  console.log(props.event)
 
 	if (deleteEvent) {
     // Delete data
-    console.log('Set Event Deleted')
-    console.log(eventid)
     return <DeleteAction eventid={eventid} />
   }
 
