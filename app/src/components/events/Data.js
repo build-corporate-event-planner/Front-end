@@ -81,7 +81,7 @@ export const useUpdateData = (url, id, body, dependencies) => {
       Authorization: `Bearer ${localStorage.getItem('token')}`
     }
 
-    axios.put(`${url}/events/edit/${id}`, body, { headers })
+    axios.put(`${url}/events/edit/${id}`, {body}, { headers })
     .then((res) => {
       setIsLoading(false)
       setEventUpdated(true)
