@@ -41,7 +41,7 @@ export default function DeleteAction(props) {
     // Event deleted
 		return (
       <div className="delete">
-        <h3>Event Deleted. {props.eventid}</h3>
+        <h3>Event Deleted.</h3>
         <p><a href="/events">Go to Events</a></p>
       </div>
     )
