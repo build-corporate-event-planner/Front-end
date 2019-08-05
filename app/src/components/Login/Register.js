@@ -10,12 +10,12 @@ class Register extends React.Component {
     super()
     this.state = {
       user: {
-        username: 'LambdaTestUser',
-        password: 'pass',
-        checkPassword: 'pass',
-        email: 'LambdaTestUser@email.com', 
-        role: 'Lambda Student', 
-        companyname: 'Lambda'
+        username: '',
+        password: '',
+        checkPassword: '',
+        email: '', 
+        role: '', 
+        companyname: ''
       }, 
       checkPassword: '',
       checkToken: '',
@@ -44,23 +44,8 @@ class Register extends React.Component {
 
 	handleSubmit = (evt) => {
 		evt.preventDefault()
-    const user = this.state.user
-    //const { username, email, password, checkPassword, role, companyname } = this.state.user
-    
-    // if (!(password == checkPassword)) {
-    //   console.log (password)
-    //   console.log (checkPassword)
-    //   this.setState({ 
-    //     errMessage: 'Passwords must match.'
-    //   })
-    // } else 
-    // if ( !username || !email || !password ) {
-    //   this.setState({ 
-    //     errMessage: 'Username, Email, and password are required.'
-    //   })
-    // } else {    
+    const user = this.state.user    
       const response = this.props.register(user)
-    //}
   }
   
   callLogin = (evt) => {

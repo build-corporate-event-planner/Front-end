@@ -12,13 +12,9 @@ const baseUrl = baseInput.baseUrl
 function Create(props) {
 
   const body = props.event
-  console.log(body)
 
   // import hook function to add data
   const [isLoading, errMsg, fetchedData] = useCreateData(baseUrl, body, [body])
-
-  // Create Data should return an event id, until I can find out how ...
-  const eventid = 9
 
 	if (isLoading) {
     // fetching data
@@ -52,8 +48,6 @@ function Create(props) {
 
       <h3>{name}</h3>
 
-      <div className='edit'><Link to={`/edit/${eventid}`}>Edit</Link></div>
-
       <div className='date'>{date}</div>
 
       <div className='description'>
@@ -80,6 +74,7 @@ function Create(props) {
       : ''
       }
 
+      <div><Link to={`/events`}>Go Back to Events</Link></div>
     </div>
   )
 }

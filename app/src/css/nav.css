@@ -11,8 +11,8 @@ nav a {
 
 nav a:hover {
   margin: 10px;
-  color: white;
-  text-decoration: double underline;
+  color: gold;
+  transform: scale(1.05);
 }
   
 button {

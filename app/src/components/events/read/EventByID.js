@@ -58,7 +58,6 @@ function EventByID(props) {
 
   if (errMsg) {
     // This happens if an Error message is returned from GetData
-    console.log(errMsg)
     return (
       <div className="alert alert-danger" role="alert">
         <p>Error Happened ... </p>
