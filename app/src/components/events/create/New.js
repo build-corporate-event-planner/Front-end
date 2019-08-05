@@ -39,7 +39,6 @@ function New(props) {
     e.preventDefault();
 
     // invoke form submit
-    console.log('Handle Submit')
     setIsLoading(true)
   };
 
